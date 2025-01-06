@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <style>
+        /* Estilos CSS básicos */
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <input type="email" id="email" placeholder="Email"><br><br>
+        <input type="password" id="password" placeholder="Senha"><br><br>
+        <button onclick="login()">Entrar</button>
+        <div id="message"></div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
+    <script>
+        // Sua configuração do Firebase (substitua com suas credenciais)
+        const firebaseConfig = {
+          apiKey: "AIzaSyDu5zp7mBpkqMhyyZyjJUcOZWbnOLGULHk",
+          authDomain: "gestao-de-entregadores.firebaseapp.com",
+          projectId: "gestao-de-entregadores",
+          storageBucket: "gestao-de-entregadores.firebasestorage.app",
+          messagingSenderId: "162118679547",
+          appId: "1:162118679547:web:c3a8aa408885f0902de95e"
+        };
+
+        // Inicializa o Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.getAuth(app);
+        const messageDiv = document.getElementById('message');
+
+        function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            firebase.auth().signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Login bem-sucedido
+                const user = userCredential.user;
+                messageDiv.textContent = "Login realizado com sucesso!";
+                // Redirecionar para o painel apropriado (logista ou entregador)
+                // Você precisará adicionar lógica para determinar o tipo de usuário
+                console.log("Usuário logado:", user.uid);
+                // Exemplo de redirecionamento (substitua com seus URLs):
+                // window.location.href = "/painel-logista.html";
+            })
+            .catch((error) => {
+                // Tratar erros de login
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                messageDiv.textContent = "Erro no login: " + errorMessage;
+                console.error("Erro no login:", errorCode, errorMessage);
+            });
+        }
+    </script>
+</body>
+</html>
