@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Painel do Logista</title>
+    <style>
+        /* Estilos CSS básicos (melhore conforme necessário) */
+        body { font-family: sans-serif; }
+        .container { padding: 20px; }
+        label { display: block; margin-bottom: 5px; }
+        input[type="text"], input[type="number"] { width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box; }
+        button { padding: 10px 20px; }
+        #message { margin-top: 10px; }
+        .entrega-card{border: 1px solid black; padding: 10px; margin-bottom: 10px; border-radius: 8px;}
+        .entrega-card span{display: block;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Painel do Logista</h1>
+
+        <h2>Solicitar Entrega</h2>
+        <label for="destinatario">Destinatário:</label>
+        <input type="text" id="destinatario"><br><br>
+
+        <label for="endereco">Endereço de Destino:</label>
+        <input type="text" id="endereco"><br><br>
+
+        <label for="peso">Peso (kg):</label>
+        <input type="number" id="peso"><br><br>
+
+        <button onclick="solicitarEntrega()">Solicitar Entrega</button>
+        <div id="message"></div>
+
+        <h2>Entregas</h2>
+        <div id="entregas-pendentes">
+            <h3>Pendentes</h3>
+        </div>
+        <div id="entregas-aceitas">
+            <h3>Aceitas</h3>
+        </div>
+        <div id="entregas-entregues">
+            <h3>Entregues</h3>
+        </div>
+
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore-compat.js"></script>
+    <script>
+        // Configuração do Firebase (substitua com suas credenciais)
+        const firebaseConfig = { /* ... */ }; // Mesma configuração do login
+
+        // Inicializa o Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
+        const auth = firebase.getAuth(app);
+        const messageDiv = document.getElementById('message');
+        const entregasPendentesDiv = document.getElementById('entregas-pendentes');
+        const entregasAceitasDiv = document.getElementById('entregas-aceitas');
+        const entregasEntreguesDiv = document.getElementById('entregas-entregues');
+        let userId;
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                userId = user.uid;
+                carregarEntregas()
+            } else {
+                window.location.href = "index.html"
+            }
+        })
+
+        function solicitarEntrega() {
+            const destinatario = document.getElementById('destinatario').value;
+            const endereco = document.getElementById('endereco').value;
+            const peso = document.getElementById('peso').value;
+
+            db.collection("entregas").add({
+                destinatario: destinatario,
+                endereco: endereco,
+                peso: peso,
+                status: "pendente",
+                logistaId: userId,
+                entregadorId: null
+            })
+            .then(() => {
+                messageDiv.textContent = "Entrega solicitada com sucesso!";
+                document.getElementById('destinatario').value = "";
+                document.getElementById('endereco').value = "";
+                document.getElementById('peso').value = "";
+                carregarEntregas()
+            })
+            .catch((error) => {
+                messageDiv.textContent = "Erro ao solicitar entrega: " + error;
+            });
+        }
+
+        function carregarEntregas() {
+            entregasPendentesDiv.innerHTML = "<h3>Pendentes</h3>";
+            entregasAceitasDiv.innerHTML = "<h3>Aceitas</h3>";
+            entregasEntreguesDiv.innerHTML = "<h3>Entregues</h3>";
+
+            db.collection("entregas").where('logistaId', '==', userId).onSnapshot((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    let entrega = doc.data()
+                    let div = document.createElement('div')
+                    div.classList.add('entrega-card')
+                    div.innerHTML = `
+                        <span>Destinatario: ${entrega.destinatario}</span>
+                        <span>Endereço: ${entrega.endereco}</span>
+                        <span>Peso: ${entrega.peso}</span>
+                        <span>Status: ${entrega.status}</span>
+                    `
+
+                    if(entrega.status === 'pendente'){
+                        entregasPendentesDiv.appendChild(div)
+                    }else if(entrega.status === 'aceito'){
+                        entregasAceitasDiv.appendChild(div)
+                    }else if(entrega.status === 'entregue'){
+                        entregasEntreguesDiv.appendChild(div)
+                    }
+                })
+            })
+        }
+    </script>
+</body>
+</html>
