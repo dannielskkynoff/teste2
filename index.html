@@ -1,78 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <title>Login</title>
-    <style>
-        /* Estilos CSS básicos */
-        body {
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Login</h2>
-        <input type="email" id="email" placeholder="Email"><br><br>
-        <input type="password" id="password" placeholder="Senha"><br><br>
-        <button onclick="login()">Entrar</button>
-        <div id="message"></div>
-    </div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olá logista!</title>
+    <link rel="stylesheet" href="login.css">
+    
+    <!-- Firebase SDK: Módulos -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
 
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
-    <script>
-        // Sua configuração do Firebase (substitua com suas credenciais)
+        // Configuração do Firebase
         const firebaseConfig = {
-          apiKey: "AIzaSyCjDxtzK9ELCyxLNgmd0ZYDhB1o-bPLWr8",
-          authDomain: "nuxpro-gestao-de-entregas.firebaseapp.com",
-          databaseURL: "https://nuxpro-gestao-de-entregas-default-rtdb.firebaseio.com",
-          projectId: "nuxpro-gestao-de-entregas",
-          storageBucket: "nuxpro-gestao-de-entregas.firebasestorage.app",
-          messagingSenderId: "483551326765",
-          appId: "1:483551326765:web:e77ef1e29d69f58efa7ea4",
-          measurementId: "G-FVR4EXZR93"
+            apiKey: "AIzaSyCjDxtzK9ELCyxLNgmd0ZYDhB1o-bPLWr8",
+            authDomain: "nuxpro-gestao-de-entregas.firebaseapp.com",
+            projectId: "nuxpro-gestao-de-entregas",
+            storageBucket: "nuxpro-gestao-de-entregas.appspot.com",
+            messagingSenderId: "483551326765",
+            appId: "1:483551326765:web:e77ef1e29d69f58efa7ea4",
+            measurementId: "G-FVR4EXZR93"
         };
 
         // Inicializa o Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.getAuth(app);
-        const messageDiv = document.getElementById('message');
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
-        function login() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+        // Função de login
+        document.getElementById("login-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const errorMessageElement = document.getElementById("error-message");
 
-            firebase.auth().signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Login bem-sucedido
-                const user = userCredential.user;
-                messageDiv.textContent = "Login realizado com sucesso!";
-                // Redirecionar para o painel apropriado (logista ou entregador)
-                // Você precisará adicionar lógica para determinar o tipo de usuário
-                console.log("Usuário logado:", user.uid);
-                // Exemplo de redirecionamento (substitua com seus URLs):
-                // window.location.href = "/painel-logista.html";
-            })
-            .catch((error) => {
-                // Tratar erros de login
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                messageDiv.textContent = "Erro no login: " + errorMessage;
-                console.error("Erro no login:", errorCode, errorMessage);
-            });
-        }
+            // Limpa mensagens de erro anteriores
+            errorMessageElement.textContent = "";
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    console.log("Login bem-sucedido:", userCredential);
+                    window.location.href = "painel-logista.html"; // Redireciona para o painel
+                })
+                .catch((error) => {
+                    console.error("Erro ao fazer login:", error);
+                    errorMessageElement.textContent = "Erro: " + error.message;
+                });
+        });
     </script>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Bem-Vindo!</h1>
+        <form id="login-form">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <p id="error-message" class="error-message"></p>
+    </div>
 </body>
 </html>
