@@ -3,12 +3,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebas
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_AUTH_DOMAIN",
-  projectId: "SEU_PROJECT_ID",
-  storageBucket: "SEU_STORAGE_BUCKET",
-  messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-  appId: "SEU_APP_ID",
+  apiKey: "AIzaSyDu5zp7mBpkqMhyyZyjJUcOZWbnOLGULHk",
+  authDomain: "gestao-de-entregadores.firebaseapp.com",
+  projectId: "gestao-de-entregadores",
+  storageBucket: "gestao-de-entregadores.firebasestorage.app",
+  messagingSenderId: "162118679547",
+  appId: "1:162118679547:web:c3a8aa408885f0902de95e",
 };
 
 const app = initializeApp(firebaseConfig);
