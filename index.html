@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CinemaFlix Premium - O Futuro do Entretenimento</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a0000 50%, #000000 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(220,20,60,0.1)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><rect fill="%23000" width="1920" height="1080"/><circle cx="200" cy="200" r="3" fill="%23dc143c" opacity="0.5"><animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/></circle><circle cx="800" cy="400" r="2" fill="%23ff0000" opacity="0.3"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite"/></circle><circle cx="1500" cy="300" r="4" fill="%23dc143c" opacity="0.6"><animate attributeName="opacity" values="0.6;1;0.6" dur="1.5s" repeatCount="indefinite"/></circle></svg>');
+            background-size: cover;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: backgroundPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes backgroundPulse {
+            0%, 100% { background-color: rgba(0,0,0,0.9); }
+            50% { background-color: rgba(20,0,0,0.95); }
+        }
+
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #dc143c;
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 1200px;
+            padding: 2rem;
+            z-index: 10;
+            animation: slideUp 1.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff0000, #dc143c, #ff4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(220,20,60,0.5);
+            animation: logoGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { 
+                text-shadow: 0 0 30px rgba(220,20,60,0.5);
+                transform: scale(1);
+            }
+            50% { 
+                text-shadow: 0 0 50px rgba(220,20,60,0.8);
+                transform: scale(1.05);
+            }
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: #cccccc;
+            font-weight: 300;
+            animation: fadeInDelay 2s ease-out;
+        }
+
+        @keyframes fadeInDelay {
+            0% { opacity: 0; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.5rem 3rem;
+            background: linear-gradient(135deg, #dc143c, #ff0000, #dc143c);
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(220,20,60,0.4);
+            position: relative;
+            overflow: hidden;
+            animation: buttonPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% { 
+                box-shadow: 0 10px 30px rgba(220,20,60,0.4);
+                transform: translateY(0);
+            }
+            50% { 
+                box-shadow: 0 15px 40px rgba(220,20,60,0.6);
+                transform: translateY(-3px);
+            }
+        }
+
+        .cta-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover:before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(220,20,60,0.6);
+        }
+
+        .features-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(20,0,0,0.9) 50%, rgba(0,0,0,0.95) 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #ffffff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(220,20,60,0.1), rgba(0,0,0,0.8));
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(220,20,60,0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(220,20,60,0.3);
+            border-color: rgba(220,20,60,0.6);
+        }
+
+        .feature-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(220,20,60,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .feature-card:hover:before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #dc143c;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .feature-description {
+            color: #cccccc;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .pricing-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(45deg, #000000, #1a0000, #000000);
+        }
+
+        .pricing-card {
+            background: linear-gradient(135deg, rgba(220,20,60,0.15), rgba(0,0,0,0.9));
+            padding: 3rem;
+            border-radius: 25px;
+            border: 2px solid #dc143c;
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            animation: priceGlow 6s ease-in-out infinite;
+        }
+
+        @keyframes priceGlow {
+            0%, 100% { 
+                border-color: #dc143c;
+                box-shadow: 0 0 30px rgba(220,20,60,0.3);
+            }
+            50% { 
+                border-color: #ff0000;
+                box-shadow: 0 0 50px rgba(220,20,60,0.5);
+            }
+        }
+
+        .price {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #dc143c;
+            margin-bottom: 1rem;
+        }
+
+        .price-period {
+            color: #cccccc;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .testimonial-section {
+            padding: 5rem 2rem;
+            background: rgba(0,0,0,0.95);
+        }
+
+        .testimonial {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(220,20,60,0.1), rgba(0,0,0,0.5));
+            border-radius: 20px;
+            border: 1px solid rgba(220,20,60,0.2);
+        }
+
+        .testimonial-text {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .testimonial-author {
+            color: #dc143c;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .urgency-banner {
+            background: linear-gradient(135deg, #dc143c, #ff0000);
+            padding: 1rem;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            animation: urgencyPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes urgencyPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .footer {
+            background: #000000;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid #dc143c;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .logo { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.2rem; }
+            .cta-button { font-size: 1.2rem; padding: 1rem 2rem; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #dc143c;
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="urgency-banner">
+        ⚡ OFERTA LIMITADA: 70% OFF - Apenas nas próximas 24 horas! ⚡
+    </div>
+
+    <section class="hero-section">
+        <div class="floating-particles">
+            <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+            <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+            <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+            <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
+            <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+            <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+            <div class="particle" style="left: 70%; animation-delay: 0.5s;"></div>
+            <div class="particle" style="left: 80%; animation-delay: 1.5s;"></div>
+            <div class="particle" style="left: 90%; animation-delay: 2.5s;"></div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="logo">CinemaFlix</div>
+            <h1 class="hero-title">O Futuro do Entretenimento Chegou</h1>
+            <p class="hero-subtitle">
+                Acesso ilimitado a mais de 50.000 filmes, séries exclusivas e documentários em 4K. 
+                A experiência cinematográfica que você sempre sonhou, agora na palma da sua mão.
+            </p>
+            <a href="#pricing" class="cta-button">🎬 COMEÇAR AGORA - 70% OFF</a>
+        </div>
+        
+        <div class="scroll-indicator">⬇</div>
+    </section>
+
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Por Que Escolher o CinemaFlix?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🎭</span>
+                    <h3 class="feature-title">Catálogo Exclusivo</h3>
+                    <p class="feature-description">
+                        Mais de 50.000 títulos incluindo lançamentos exclusivos, clássicos atemporais 
+                        e produções originais premiadas que você não encontra em nenhum outro lugar.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">💎</span>
+                    <h3 class="feature-title">Qualidade 4K Ultra HD</h3>
+                    <p class="feature-description">
+                        Desfrute de uma experiência visual incomparável com resolução 4K, HDR e áudio Dolby Atmos. 
+                        Cinema profissional no conforto da sua casa.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🚀</span>
+                    <h3 class="feature-title">Streaming Sem Limites</h3>
+                    <p class="feature-description">
+                        Assista em qualquer dispositivo, a qualquer hora. Downloads offline, múltiplas telas 
+                        simultâneas e tecnologia de streaming mais avançada do mercado.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎯</span>
+                    <h3 class="feature-title">IA Personalizada</h3>
+                    <p class="feature-description">
+                        Algoritmo inteligente que aprende seus gostos e sugere conteúdos perfeitos para você. 
+                        Descubra novos favoritos todos os dias.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🌍</span>
+                    <h3 class="feature-title">Conteúdo Global</h3>
+                    <p class="feature-description">
+                        Filmes e séries dos melhores estúdios mundiais com legendas e dublagem em português. 
+                        O mundo do entretenimento sem fronteiras.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">💰</span>
+                    <h3 class="feature-title">Melhor Custo-Benefício</h3>
+                    <p class="feature-description">
+                        Por menos que o preço de um ingresso de cinema, tenha acesso ilimitado ao maior 
+                        catálogo de entretenimento premium do Brasil.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonial-section">
+        <div class="container">
+            <h2 class="section-title">O Que Nossos Usuários Dizem</h2>
+            <div class="testimonial">
+                <p class="testimonial-text">
+                    "Cancelei todas as outras plataformas depois que descobri o CinemaFlix. 
+                    A qualidade é impressionante e o catálogo é simplesmente imbatível. 
+                    Vale cada centavo!"
+                </p>
+                <p class="testimonial-author">- Marina Silva, São Paulo</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing-section" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Oferta Especial - Por Tempo Limitado</h2>
+            <div class="pricing-card">
+                <div class="price">R$ 12,97</div>
+                <div class="price-period">
+                    <s style="color: #999;">R$ 42,90</s> por mês<br>
+                    <strong style="color: #dc143c;">ECONOMIA DE 70%</strong>
+                </div>
+                <ul style="text-align: left; margin: 2rem 0; color: #cccccc; font-size: 1.1rem;">
+                    <li style="margin-bottom: 1rem;">✅ Acesso ilimitado a 50.000+ títulos</li>
+                    <li style="margin-bottom: 1rem;">✅ Qualidade 4K Ultra HD + HDR</li>
+                    <li style="margin-bottom: 1rem;">✅ 5 telas simultâneas</li>
+                    <li style="margin-bottom: 1rem;">✅ Downloads offline ilimitados</li>
+                    <li style="margin-bottom: 1rem;">✅ Sem anúncios nem interrupções</li>
+                    <li style="margin-bottom: 1rem;">✅ Cancele quando quiser</li>
+                    <li style="margin-bottom: 1rem;">✅ Suporte 24/7 especializado</li>
+                    <li style="margin-bottom: 1rem;">✅ 7 dias grátis para testar</li>
+                </ul>
+                <a href="#" class="cta-button" style="margin-top: 1rem;">
+                    🔥 GARANTIR DESCONTO AGORA
+                </a>
+                <p style="margin-top: 1rem; color: #dc143c; font-size: 0.9rem;">
+                    ⏰ Restam apenas 23h 45min para esta oferta!
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 CinemaFlix Premium. Todos os direitos reservados.</p>
+            <p style="margin-top: 1rem; color: #999; font-size: 0.9rem;">
+                Garantia de 30 dias | Suporte 24/7 | Cancele quando quiser
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling para links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Efeito de parallax suave
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero-section');
+            const speed = scrolled * 0.5;
+            parallax.style.transform = `translateY(${speed}px)`;
+        });
+
+        // Contador regressivo simulado
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const tomorrow = new Date();
+            tomorrow.setHours(23, 59, 59, 999);
+            const distance = tomorrow - now;
+
+            const hours = Math.floor(distance / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+            const countdownElements = document.querySelectorAll('p:contains("Restam apenas")');
+            countdownElements.forEach(el => {
+                if (el.textContent.includes('Restam apenas')) {
+                    el.innerHTML = `⏰ Restam apenas ${hours}h ${minutes}min para esta oferta!`;
+                }
+            });
+        }
+
+        setInterval(updateCountdown, 60000); // Atualiza a cada minuto
+        updateCountdown(); // Chama imediatamente
+
+        // Animação das partículas
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 6 + 's';
+            particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            
+            const container = document.querySelector('.floating-particles');
+            container.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 8000);
+        }
+
+        // Cria novas partículas periodicamente
+        setInterval(createParticle, 1000);
+    </script>
+</body>
+</html>
