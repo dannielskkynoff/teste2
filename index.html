@@ -1,578 +1,462 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CinemaFlix Premium - O Futuro do Entretenimento</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #000000 0%, #1a0000 50%, #000000 100%);
-            color: #ffffff;
-            overflow-x: hidden;
-        }
-
-        .hero-section {
-            min-height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(220,20,60,0.1)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><rect fill="%23000" width="1920" height="1080"/><circle cx="200" cy="200" r="3" fill="%23dc143c" opacity="0.5"><animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/></circle><circle cx="800" cy="400" r="2" fill="%23ff0000" opacity="0.3"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite"/></circle><circle cx="1500" cy="300" r="4" fill="%23dc143c" opacity="0.6"><animate attributeName="opacity" values="0.6;1;0.6" dur="1.5s" repeatCount="indefinite"/></circle></svg>');
-            background-size: cover;
-            background-attachment: fixed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            animation: backgroundPulse 8s ease-in-out infinite;
-        }
-
-        @keyframes backgroundPulse {
-            0%, 100% { background-color: rgba(0,0,0,0.9); }
-            50% { background-color: rgba(20,0,0,0.95); }
-        }
-
-        .floating-particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #dc143c;
-            border-radius: 50%;
-            animation: float 6s infinite linear;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        .hero-content {
-            text-align: center;
-            max-width: 1200px;
-            padding: 2rem;
-            z-index: 10;
-            animation: slideUp 1.5s ease-out;
-        }
-
-        @keyframes slideUp {
-            0% {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .logo {
-            font-size: 4rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #ff0000, #dc143c, #ff4444);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 30px rgba(220,20,60,0.5);
-            animation: logoGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes logoGlow {
-            0%, 100% { 
-                text-shadow: 0 0 30px rgba(220,20,60,0.5);
-                transform: scale(1);
-            }
-            50% { 
-                text-shadow: 0 0 50px rgba(220,20,60,0.8);
-                transform: scale(1.05);
-            }
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #ffffff, #ff6b6b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: bold;
-            line-height: 1.2;
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            color: #cccccc;
-            font-weight: 300;
-            animation: fadeInDelay 2s ease-out;
-        }
-
-        @keyframes fadeInDelay {
-            0% { opacity: 0; }
-            50% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1.5rem 3rem;
-            background: linear-gradient(135deg, #dc143c, #ff0000, #dc143c);
-            color: white;
-            text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: bold;
-            border-radius: 50px;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(220,20,60,0.4);
-            position: relative;
-            overflow: hidden;
-            animation: buttonPulse 4s ease-in-out infinite;
-        }
-
-        @keyframes buttonPulse {
-            0%, 100% { 
-                box-shadow: 0 10px 30px rgba(220,20,60,0.4);
-                transform: translateY(0);
-            }
-            50% { 
-                box-shadow: 0 15px 40px rgba(220,20,60,0.6);
-                transform: translateY(-3px);
-            }
-        }
-
-        .cta-button:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .cta-button:hover:before {
-            left: 100%;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 20px 50px rgba(220,20,60,0.6);
-        }
-
-        .features-section {
-            padding: 5rem 2rem;
-            background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(20,0,0,0.9) 50%, rgba(0,0,0,0.95) 100%);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 3rem;
-            margin-bottom: 3rem;
-            background: linear-gradient(135deg, #ffffff, #ff6b6b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: linear-gradient(135deg, rgba(220,20,60,0.1), rgba(0,0,0,0.8));
-            padding: 2.5rem;
-            border-radius: 20px;
-            border: 1px solid rgba(220,20,60,0.3);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(220,20,60,0.3);
-            border-color: rgba(220,20,60,0.6);
-        }
-
-        .feature-card:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(220,20,60,0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .feature-card:hover:before {
-            opacity: 1;
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            color: #dc143c;
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-
-        .feature-title {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: #ffffff;
-            font-weight: bold;
-        }
-
-        .feature-description {
-            color: #cccccc;
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-
-        .pricing-section {
-            padding: 5rem 2rem;
-            background: linear-gradient(45deg, #000000, #1a0000, #000000);
-        }
-
-        .pricing-card {
-            background: linear-gradient(135deg, rgba(220,20,60,0.15), rgba(0,0,0,0.9));
-            padding: 3rem;
-            border-radius: 25px;
-            border: 2px solid #dc143c;
-            text-align: center;
-            max-width: 500px;
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;
-            animation: priceGlow 6s ease-in-out infinite;
-        }
-
-        @keyframes priceGlow {
-            0%, 100% { 
-                border-color: #dc143c;
-                box-shadow: 0 0 30px rgba(220,20,60,0.3);
-            }
-            50% { 
-                border-color: #ff0000;
-                box-shadow: 0 0 50px rgba(220,20,60,0.5);
-            }
-        }
-
-        .price {
-            font-size: 4rem;
-            font-weight: bold;
-            color: #dc143c;
-            margin-bottom: 1rem;
-        }
-
-        .price-period {
-            color: #cccccc;
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-
-        .testimonial-section {
-            padding: 5rem 2rem;
-            background: rgba(0,0,0,0.95);
-        }
-
-        .testimonial {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            background: linear-gradient(135deg, rgba(220,20,60,0.1), rgba(0,0,0,0.5));
-            border-radius: 20px;
-            border: 1px solid rgba(220,20,60,0.2);
-        }
-
-        .testimonial-text {
-            font-size: 1.5rem;
-            font-style: italic;
-            margin-bottom: 1.5rem;
-            color: #ffffff;
-        }
-
-        .testimonial-author {
-            color: #dc143c;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .urgency-banner {
-            background: linear-gradient(135deg, #dc143c, #ff0000);
-            padding: 1rem;
-            text-align: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-            animation: urgencyPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes urgencyPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-
-        .footer {
-            background: #000000;
-            padding: 2rem;
-            text-align: center;
-            border-top: 1px solid #dc143c;
-        }
-
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2.5rem; }
-            .logo { font-size: 3rem; }
-            .hero-subtitle { font-size: 1.2rem; }
-            .cta-button { font-size: 1.2rem; padding: 1rem 2rem; }
-            .features-grid { grid-template-columns: 1fr; }
-        }
-
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #dc143c;
-            font-size: 2rem;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-            40% { transform: translateX(-50%) translateY(-10px); }
-            60% { transform: translateX(-50%) translateY(-5px); }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TransControl</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c14;--surface:#0d1420;--panel:#111827;--border:#1e2d45;--accent:#00d4ff;--accent2:#ff6b35;--green:#00e676;--yellow:#ffd740;--red:#ff4d6d;--text:#e8f0fe;--muted:#5a7a9a;--card:#0f1c2e}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+header{position:sticky;top:0;z-index:100;background:rgba(8,12,20,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--accent),#0080ff);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 20px rgba(0,212,255,.4)}
+.logo-text{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px}
+.logo-text span{color:var(--accent)}
+.header-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.live-badge{display:flex;align-items:center;gap:6px;background:rgba(0,230,118,.1);border:1px solid rgba(0,230,118,.3);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--green);letter-spacing:1px;text-transform:uppercase}
+.live-dot{width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse 1.5s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+.clock{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--muted)}
+.btn-finalize{background:linear-gradient(135deg,#ff6b35,#ff4d6d);border:none;border-radius:10px;padding:8px 16px;color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.5px;transition:all .2s;white-space:nowrap}
+.btn-finalize:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,77,109,.4)}
+.fleet-bar{position:relative;z-index:1;background:rgba(8,12,20,.85);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;overflow-x:auto}
+.fleet-bar::-webkit-scrollbar{height:3px}
+.fleet-bar::-webkit-scrollbar-thumb{background:var(--border)}
+.fleet-tab{display:flex;align-items:center;gap:10px;padding:12px 18px;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);transition:all .2s;white-space:nowrap;user-select:none}
+.fleet-tab:hover{color:var(--text)}
+.fleet-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-main{display:flex;flex-direction:column;gap:1px}
+.tab-frota{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:1px;line-height:1}
+.tab-hora{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)}
+.fleet-tab.active .tab-hora{color:rgba(0,212,255,.6)}
+.tab-badge{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:2px 8px;font-size:10px;font-family:'JetBrains Mono',monospace}
+.fleet-tab.active .tab-badge{background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.3);color:var(--accent)}
+.tab-close{font-size:13px;color:var(--muted);opacity:0;transition:opacity .15s;padding:2px 4px;border-radius:4px}
+.fleet-tab:hover .tab-close{opacity:1}
+.tab-close:hover{color:var(--red)!important;background:rgba(255,77,109,.1)}
+.btn-add-fleet{display:flex;align-items:center;gap:6px;padding:10px 16px;background:none;border:1px dashed var(--border);border-radius:8px;margin:8px 0 8px 8px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn-add-fleet:hover{border-color:var(--accent);color:var(--accent)}
+main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:24px 20px}
+.no-fleet-state{text-align:center;padding:70px 20px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.nf-icon{font-size:56px}
+.nf-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--muted)}
+.nf-sub{font-size:14px;color:var(--muted)}
+.fleet-info-bar{display:flex;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:20px;overflow:hidden;flex-wrap:wrap}
+.fleet-info-item{display:flex;flex-direction:column;gap:2px;padding:14px 20px;flex:1;min-width:80px}
+.fi-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px}
+.fi-val{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:var(--accent)}
+.fleet-divider{width:1px;height:40px;background:var(--border);align-self:center}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:24px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 20px;position:relative;overflow:hidden;transition:transform .2s,border-color .2s}
+.stat-card:hover{transform:translateY(-2px);border-color:rgba(0,212,255,.3)}
+.stat-card::before{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px}
+.stat-card.blue::before{background:linear-gradient(90deg,var(--accent),transparent)}
+.stat-card.green::before{background:linear-gradient(90deg,var(--green),transparent)}
+.stat-card.orange::before{background:linear-gradient(90deg,var(--accent2),transparent)}
+.stat-card.red::before{background:linear-gradient(90deg,var(--red),transparent)}
+.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px}
+.stat-value{font-family:'Bebas Neue',sans-serif;font-size:42px;line-height:1}
+.stat-card.blue .stat-value{color:var(--accent)}
+.stat-card.green .stat-value{color:var(--green)}
+.stat-card.orange .stat-value{color:var(--accent2)}
+.stat-card.red .stat-value{color:var(--red)}
+.stat-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.progress-wrap{margin-top:10px;height:4px;background:var(--border);border-radius:4px;overflow:hidden}
+.progress-bar{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.stat-card.green .progress-bar{background:var(--green)}
+.stat-card.blue .progress-bar{background:var(--accent)}
+.columns{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start}
+@media(max-width:900px){.columns{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.panel-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.panel-title{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:1.5px;display:flex;align-items:center;gap:8px}
+.controls{display:flex;gap:8px;flex-wrap:wrap}
+.search-wrap{position:relative;flex:1;min-width:160px}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;pointer-events:none}
+.search-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:7px 11px 7px 32px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s}
+.search-input::placeholder{color:var(--muted)}
+.search-input:focus{border-color:var(--accent)}
+.filter-btn{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:7px 12px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap}
+.filter-btn:hover,.filter-btn.active{background:rgba(0,212,255,.1);border-color:var(--accent);color:var(--accent)}
+.passenger-list{max-height:520px;overflow-y:auto;padding:8px}
+.passenger-list::-webkit-scrollbar{width:4px}
+.passenger-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.passenger-item{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:12px;margin-bottom:4px;transition:background .15s;border:1px solid transparent;animation:slideIn .3s ease both}
+@keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+.passenger-item:hover{background:rgba(255,255,255,.04);border-color:var(--border)}
+.passenger-item.boarded{background:rgba(0,230,118,.05);border-color:rgba(0,230,118,.15)}
+.passenger-item.absent{opacity:.55;background:rgba(255,77,109,.04);border-color:rgba(255,77,109,.1)}
+.seat-badge{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;flex-shrink:0;background:var(--surface);border:1px solid var(--border);color:var(--muted);transition:all .3s}
+.passenger-item.boarded .seat-badge{background:rgba(0,230,118,.12);border-color:var(--green);color:var(--green)}
+.passenger-item.absent .seat-badge{background:rgba(255,77,109,.1);border-color:var(--red);color:var(--red)}
+.passenger-info{flex:1;min-width:0}
+.passenger-name{font-size:14px;font-weight:600;color:var(--text)}
+.passenger-detail{font-size:11px;color:var(--muted);margin-top:2px}
+.tag{display:inline-flex;align-items:center;gap:3px;border-radius:5px;padding:1px 7px;font-size:10px;letter-spacing:.5px}
+.tag.leito{color:var(--yellow);background:rgba(255,215,64,.08)}
+.tag.comum{color:var(--muted);background:rgba(255,255,255,.05)}
+.board-time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);margin-top:2px}
+.passenger-actions{display:flex;gap:6px;flex-shrink:0}
+.btn-board,.btn-absent,.btn-undo{padding:6px 13px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid;white-space:nowrap}
+.btn-board{background:rgba(0,230,118,.1);border-color:rgba(0,230,118,.3);color:var(--green)}
+.btn-board:hover{background:var(--green);color:#000;box-shadow:0 0 16px rgba(0,230,118,.4)}
+.btn-absent{background:rgba(255,77,109,.08);border-color:rgba(255,77,109,.25);color:var(--red)}
+.btn-absent:hover{background:var(--red);color:#fff}
+.btn-undo{background:rgba(255,255,255,.05);border-color:var(--border);color:var(--muted)}
+.btn-undo:hover{background:rgba(255,255,255,.1);color:var(--text)}
+.add-panel{padding:16px}
+.add-form{display:flex;flex-direction:column;gap:10px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.form-input,.form-select{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s;width:100%}
+.form-input::placeholder{color:var(--muted)}
+.form-input:focus,.form-select:focus{border-color:var(--accent)}
+.form-select{cursor:pointer}
+.form-select option{background:var(--surface)}
+.btn-add{background:linear-gradient(135deg,var(--accent),#0080ff);border:none;border-radius:10px;padding:11px;color:#000;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.5px}
+.btn-add:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,212,255,.35)}
+.log-wrap{padding:0 8px 8px;max-height:200px;overflow-y:auto}
+.log-wrap::-webkit-scrollbar{width:3px}
+.log-wrap::-webkit-scrollbar-thumb{background:var(--border)}
+.log-item{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;font-size:12px;animation:logIn .3s ease}
+@keyframes logIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.log-item:hover{background:rgba(255,255,255,.03)}
+.log-time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);min-width:52px}
+.log-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.log-dot.board{background:var(--green)}.log-dot.absent{background:var(--red)}
+.log-dot.add{background:var(--accent)}.log-dot.undo{background:var(--yellow)}
+.log-dot.fleet{background:var(--accent2)}
+.log-msg{color:var(--text)}.log-msg strong{color:var(--accent);font-weight:600}
+.toast-container{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.toast{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:13px;display:flex;align-items:center;gap:10px;animation:toastIn .3s cubic-bezier(.34,1.56,.64,1) both;box-shadow:0 8px 32px rgba(0,0,0,.5);min-width:240px;max-width:320px;pointer-events:auto}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px) scale(.9)}to{opacity:1;transform:translateX(0) scale(1)}}
+.toast.out{animation:toastOut .25s ease forwards}
+@keyframes toastOut{to{opacity:0;transform:translateX(40px) scale(.95)}}
+.toast-icon{font-size:18px}.toast-text{flex:1}
+.toast-text strong{display:block;font-weight:600}.toast-text small{color:var(--muted);font-size:11px}
+.toast.green{border-color:rgba(0,230,118,.3)}.toast.red{border-color:rgba(255,77,109,.3)}
+.toast.blue{border-color:rgba(0,212,255,.3)}.toast.yellow{border-color:rgba(255,215,64,.3)}
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-state .empty-icon{font-size:36px;margin-bottom:10px}
+.empty-state p{font-size:13px}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .2s ease}
+.modal-box{background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:30px 28px;max-width:420px;width:100%;text-align:center;animation:popIn .3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+.modal-icon{font-size:42px;margin-bottom:12px}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;margin-bottom:8px}
+.modal-desc{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.modal-fleet-name{font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--accent2);margin-bottom:16px;font-weight:600}
+.modal-summary{display:flex;justify-content:center;gap:16px;margin-bottom:22px}
+.msumm{display:flex;flex-direction:column;align-items:center;gap:2px}
+.msumm .mv{font-family:'Bebas Neue',sans-serif;font-size:32px;line-height:1}
+.msumm .ml{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.msumm.mb .mv{color:var(--green)}.msumm.ma .mv{color:var(--red)}.msumm.mw .mv{color:var(--yellow)}
+.modal-btns{display:flex;gap:10px}
+.modal-btn-cancel{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.modal-btn-cancel:hover{color:var(--text)}
+.modal-btn-confirm{flex:1;background:linear-gradient(135deg,#ff6b35,#ff4d6d);border:none;border-radius:10px;padding:11px;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.modal-btn-confirm:hover{box-shadow:0 6px 20px rgba(255,77,109,.4);transform:translateY(-1px)}
+.modal-btn-blue{background:linear-gradient(135deg,var(--accent),#0080ff)!important;color:#000!important}
+#historySection{position:relative;z-index:1;border-top:1px solid var(--border);margin-top:32px;padding:24px 20px 48px}
+.history-inner{max-width:1400px;margin:0 auto}
+.history-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.history-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--muted)}
+.btn-clear-history{background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.2);border-radius:8px;padding:6px 14px;color:var(--red);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-clear-history:hover{background:rgba(255,77,109,.15)}
+.history-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.history-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 18px;animation:slideIn .35s ease both;position:relative;overflow:hidden}
+.history-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--accent2),var(--red))}
+.history-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:8px}
+.history-fleet-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--accent2);line-height:1}
+.history-fleet-hora{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px}
+.hdate{display:block;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--accent)}
+.htime{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)}
+.history-stats-row{display:flex;gap:8px;margin-bottom:10px}
+.hstat{display:flex;flex-direction:column;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 10px;flex:1}
+.hstat .hval{font-family:'Bebas Neue',sans-serif;font-size:20px;line-height:1}
+.hstat .hlbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
+.hstat.htotal .hval{color:var(--accent)}.hstat.hboard .hval{color:var(--green)}.hstat.habsent .hval{color:var(--red)}
+.history-pass-list{max-height:100px;overflow-y:auto;display:flex;flex-direction:column;gap:3px}
+.history-pass-list::-webkit-scrollbar{width:3px}
+.history-pass-list::-webkit-scrollbar-thumb{background:var(--border)}
+.hpass-item{display:flex;align-items:center;gap:8px;font-size:11px;padding:3px 6px;border-radius:6px;background:rgba(255,255,255,.02)}
+.hpass-seat{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);min-width:32px}
+.hpass-cat{flex:1;color:var(--text)}
+@media(max-width:600px){header{padding:0 14px}.form-row{grid-template-columns:1fr}.passenger-actions{flex-direction:column;gap:4px}.btn-board,.btn-absent,.btn-undo{padding:5px 10px;font-size:11px}.toast-container{bottom:12px;right:12px;left:12px}.toast{min-width:unset}.clock{display:none}}
+.fade-in{animation:fadeIn .5s ease both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.ripple{position:absolute;border-radius:50%;background:rgba(0,230,118,.3);transform:scale(0);animation:rippleAnim .6s linear;pointer-events:none}
+@keyframes rippleAnim{to{transform:scale(4);opacity:0}}
+</style>
 </head>
 <body>
-    <div class="urgency-banner">
-        ⚡ OFERTA LIMITADA: 70% OFF - Apenas nas próximas 24 horas! ⚡
+<header>
+  <div class="logo">
+    <div class="logo-icon">🚌</div>
+    <div class="logo-text">Trans<span>Control</span></div>
+  </div>
+  <div class="header-right">
+    <div class="live-badge"><div class="live-dot"></div>Ao Vivo</div>
+    <div class="clock" id="clock">--:--:--</div>
+    <button class="btn-finalize" onclick="finalizeBoarding()">🏁 Finalizar Embarque</button>
+  </div>
+</header>
+
+<div class="fleet-bar" id="fleetBar"></div>
+
+<main>
+  <div class="no-fleet-state fade-in" id="noFleetState">
+    <div class="nf-icon">🚌</div>
+    <div class="nf-title">Nenhuma frota ativa</div>
+    <div class="nf-sub">Clique em <strong>+ Nova Frota</strong> para começar um embarque</div>
+  </div>
+  <div id="fleetContent" style="display:none">
+    <div class="fleet-info-bar fade-in" id="fleetInfoBar"></div>
+    <div class="stats-grid fade-in">
+      <div class="stat-card blue"><div class="stat-label">Total</div><div class="stat-value" id="statTotal">0</div><div class="stat-sub">Capacidade: 44</div><div class="progress-wrap"><div class="progress-bar" id="barTotal" style="width:0%"></div></div></div>
+      <div class="stat-card green"><div class="stat-label">Embarcados</div><div class="stat-value" id="statBoarded">0</div><div class="stat-sub" id="boardedPct">0%</div><div class="progress-wrap"><div class="progress-bar" id="barBoarded" style="width:0%"></div></div></div>
+      <div class="stat-card orange"><div class="stat-label">Aguardando</div><div class="stat-value" id="statWaiting">0</div><div class="stat-sub">Pendentes</div></div>
+      <div class="stat-card red"><div class="stat-label">Ausentes</div><div class="stat-value" id="statAbsent">0</div><div class="stat-sub">Não embarcaram</div></div>
     </div>
-
-    <section class="hero-section">
-        <div class="floating-particles">
-            <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
-            <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
-            <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
-            <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
-            <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
-            <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
-            <div class="particle" style="left: 70%; animation-delay: 0.5s;"></div>
-            <div class="particle" style="left: 80%; animation-delay: 1.5s;"></div>
-            <div class="particle" style="left: 90%; animation-delay: 2.5s;"></div>
+    <div class="columns">
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-title"><span>💺</span> Passageiros</div>
+          <div class="controls">
+            <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" class="search-input" id="searchInput" placeholder="Buscar assento..."></div>
+            <button class="filter-btn active" data-filter="all">Todos</button>
+            <button class="filter-btn" data-filter="waiting">⏳</button>
+            <button class="filter-btn" data-filter="boarded">✅</button>
+            <button class="filter-btn" data-filter="absent">❌</button>
+          </div>
         </div>
-        
-        <div class="hero-content">
-            <div class="logo">CinemaFlix</div>
-            <h1 class="hero-title">O Futuro do Entretenimento Chegou</h1>
-            <p class="hero-subtitle">
-                Acesso ilimitado a mais de 50.000 filmes, séries exclusivas e documentários em 4K. 
-                A experiência cinematográfica que você sempre sonhou, agora na palma da sua mão.
-            </p>
-            <a href="#pricing" class="cta-button">🎬 COMEÇAR AGORA - 70% OFF</a>
-        </div>
-        
-        <div class="scroll-indicator">⬇</div>
-    </section>
-
-    <section class="features-section">
-        <div class="container">
-            <h2 class="section-title">Por Que Escolher o CinemaFlix?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <span class="feature-icon">🎭</span>
-                    <h3 class="feature-title">Catálogo Exclusivo</h3>
-                    <p class="feature-description">
-                        Mais de 50.000 títulos incluindo lançamentos exclusivos, clássicos atemporais 
-                        e produções originais premiadas que você não encontra em nenhum outro lugar.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">💎</span>
-                    <h3 class="feature-title">Qualidade 4K Ultra HD</h3>
-                    <p class="feature-description">
-                        Desfrute de uma experiência visual incomparável com resolução 4K, HDR e áudio Dolby Atmos. 
-                        Cinema profissional no conforto da sua casa.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🚀</span>
-                    <h3 class="feature-title">Streaming Sem Limites</h3>
-                    <p class="feature-description">
-                        Assista em qualquer dispositivo, a qualquer hora. Downloads offline, múltiplas telas 
-                        simultâneas e tecnologia de streaming mais avançada do mercado.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🎯</span>
-                    <h3 class="feature-title">IA Personalizada</h3>
-                    <p class="feature-description">
-                        Algoritmo inteligente que aprende seus gostos e sugere conteúdos perfeitos para você. 
-                        Descubra novos favoritos todos os dias.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">🌍</span>
-                    <h3 class="feature-title">Conteúdo Global</h3>
-                    <p class="feature-description">
-                        Filmes e séries dos melhores estúdios mundiais com legendas e dublagem em português. 
-                        O mundo do entretenimento sem fronteiras.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-icon">💰</span>
-                    <h3 class="feature-title">Melhor Custo-Benefício</h3>
-                    <p class="feature-description">
-                        Por menos que o preço de um ingresso de cinema, tenha acesso ilimitado ao maior 
-                        catálogo de entretenimento premium do Brasil.
-                    </p>
-                </div>
+        <div class="passenger-list" id="passengerList"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px;">
+        <div class="panel fade-in">
+          <div class="panel-header"><div class="panel-title"><span>➕</span> Adicionar Passageiro</div></div>
+          <div class="add-panel">
+            <div class="add-form">
+              <div class="form-row">
+                <div class="form-group"><label class="form-label">Assento</label><input type="text" class="form-input" id="inputSeat" placeholder="Ex: 12A" maxlength="4"></div>
+                <div class="form-group"><label class="form-label">Categoria</label><select class="form-select" id="inputCat"><option value="">Comum</option><option value="leito">🛏 Leito</option></select></div>
+              </div>
+              <button class="btn-add" onclick="addPassenger()">+ ADICIONAR</button>
             </div>
+          </div>
         </div>
-    </section>
-
-    <section class="testimonial-section">
-        <div class="container">
-            <h2 class="section-title">O Que Nossos Usuários Dizem</h2>
-            <div class="testimonial">
-                <p class="testimonial-text">
-                    "Cancelei todas as outras plataformas depois que descobri o CinemaFlix. 
-                    A qualidade é impressionante e o catálogo é simplesmente imbatível. 
-                    Vale cada centavo!"
-                </p>
-                <p class="testimonial-author">- Marina Silva, São Paulo</p>
-            </div>
+        <div class="panel fade-in">
+          <div class="panel-header"><div class="panel-title"><span>📋</span> Registro</div></div>
+          <div class="log-wrap" id="logWrap"><div class="empty-state"><div class="empty-icon">📝</div><p>Nenhuma atividade</p></div></div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</main>
 
-    <section class="pricing-section" id="pricing">
-        <div class="container">
-            <h2 class="section-title">Oferta Especial - Por Tempo Limitado</h2>
-            <div class="pricing-card">
-                <div class="price">R$ 12,97</div>
-                <div class="price-period">
-                    <s style="color: #999;">R$ 42,90</s> por mês<br>
-                    <strong style="color: #dc143c;">ECONOMIA DE 70%</strong>
-                </div>
-                <ul style="text-align: left; margin: 2rem 0; color: #cccccc; font-size: 1.1rem;">
-                    <li style="margin-bottom: 1rem;">✅ Acesso ilimitado a 50.000+ títulos</li>
-                    <li style="margin-bottom: 1rem;">✅ Qualidade 4K Ultra HD + HDR</li>
-                    <li style="margin-bottom: 1rem;">✅ 5 telas simultâneas</li>
-                    <li style="margin-bottom: 1rem;">✅ Downloads offline ilimitados</li>
-                    <li style="margin-bottom: 1rem;">✅ Sem anúncios nem interrupções</li>
-                    <li style="margin-bottom: 1rem;">✅ Cancele quando quiser</li>
-                    <li style="margin-bottom: 1rem;">✅ Suporte 24/7 especializado</li>
-                    <li style="margin-bottom: 1rem;">✅ 7 dias grátis para testar</li>
-                </ul>
-                <a href="#" class="cta-button" style="margin-top: 1rem;">
-                    🔥 GARANTIR DESCONTO AGORA
-                </a>
-                <p style="margin-top: 1rem; color: #dc143c; font-size: 0.9rem;">
-                    ⏰ Restam apenas 23h 45min para esta oferta!
-                </p>
-            </div>
-        </div>
-    </section>
+<section id="historySection" style="display:none">
+  <div class="history-inner">
+    <div class="history-header">
+      <div class="history-title">📁 Histórico de Embarques</div>
+      <button class="btn-clear-history" onclick="clearHistory()">🗑 Limpar</button>
+    </div>
+    <div id="historyList"></div>
+  </div>
+</section>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 CinemaFlix Premium. Todos os direitos reservados.</p>
-            <p style="margin-top: 1rem; color: #999; font-size: 0.9rem;">
-                Garantia de 30 dias | Suporte 24/7 | Cancele quando quiser
-            </p>
-        </div>
-    </footer>
+<div class="toast-container" id="toastContainer"></div>
 
-    <script>
-        // Smooth scrolling para links internos
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Efeito de parallax suave
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallax = document.querySelector('.hero-section');
-            const speed = scrolled * 0.5;
-            parallax.style.transform = `translateY(${speed}px)`;
-        });
-
-        // Contador regressivo simulado
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const tomorrow = new Date();
-            tomorrow.setHours(23, 59, 59, 999);
-            const distance = tomorrow - now;
-
-            const hours = Math.floor(distance / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-            const countdownElements = document.querySelectorAll('p:contains("Restam apenas")');
-            countdownElements.forEach(el => {
-                if (el.textContent.includes('Restam apenas')) {
-                    el.innerHTML = `⏰ Restam apenas ${hours}h ${minutes}min para esta oferta!`;
-                }
-            });
-        }
-
-        setInterval(updateCountdown, 60000); // Atualiza a cada minuto
-        updateCountdown(); // Chama imediatamente
-
-        // Animação das partículas
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 6 + 's';
-            particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
-            
-            const container = document.querySelector('.floating-particles');
-            container.appendChild(particle);
-            
-            setTimeout(() => {
-                particle.remove();
-            }, 8000);
-        }
-
-        // Cria novas partículas periodicamente
-        setInterval(createParticle, 1000);
-    </script>
+<script>
+let fleets={},activeFleetId=null,currentFilter='all',searchTerm='';
+function updateClock(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('pt-BR')}
+setInterval(updateClock,1000);updateClock();
+function renderTabs(){
+  const bar=document.getElementById('fleetBar');bar.innerHTML='';
+  Object.values(fleets).forEach(f=>{
+    const b=f.passengers.filter(p=>p.status==='boarded').length;
+    const tab=document.createElement('div');
+    tab.className='fleet-tab'+(f.id===activeFleetId?' active':'');
+    tab.innerHTML=`<div class="tab-main"><div class="tab-frota">🚌 ${f.frota}</div><div class="tab-hora">${f.horario}</div></div><span class="tab-badge">${b}/${f.passengers.length}</span><span class="tab-close" onclick="removeFleet('${f.id}',event)">✕</span>`;
+    tab.addEventListener('click',()=>switchFleet(f.id));
+    bar.appendChild(tab);
+  });
+  const btn=document.createElement('button');btn.className='btn-add-fleet';btn.innerHTML='➕ Nova Frota';btn.onclick=openNewFleetModal;bar.appendChild(btn);
+}
+function switchFleet(id){
+  if(activeFleetId===id)return;
+  activeFleetId=id;currentFilter='all';searchTerm='';
+  document.getElementById('searchInput').value='';
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+  renderTabs();showFleetContent();
+}
+function removeFleet(id,e){
+  e.stopPropagation();const f=fleets[id];
+  if(!confirm('Remover frota '+f.frota+'?'))return;
+  delete fleets[id];
+  if(activeFleetId===id){const r=Object.keys(fleets);activeFleetId=r.length?r[r.length-1]:null;}
+  renderTabs();
+  if(activeFleetId)showFleetContent();
+  else{document.getElementById('fleetContent').style.display='none';document.getElementById('noFleetState').style.display='flex';}
+  showToast('yellow','🗑','Frota '+f.frota+' removida','');
+}
+function openNewFleetModal(){
+  const o=document.createElement('div');o.className='modal-overlay';
+  o.innerHTML=`<div class="modal-box"><div class="modal-icon">🚌</div><div class="modal-title">Nova Frota</div><div class="modal-desc">Informe os dados do veículo para iniciar o embarque.</div><div style="display:flex;flex-direction:column;gap:10px;margin-bottom:22px;"><div class="form-group"><label class="form-label">Número da Frota</label><input type="text" class="form-input" id="mFrota" placeholder="Ex: 4521" style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:20px;letter-spacing:3px;" autocomplete="off"></div><div class="form-group"><label class="form-label">Horário de Partida</label><input type="time" class="form-input" id="mHorario" style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:18px;"></div></div><div class="modal-btns"><button class="modal-btn-cancel" onclick="this.closest('.modal-overlay').remove()">Cancelar</button><button class="modal-btn-confirm modal-btn-blue" onclick="createFleet(this)">✔ Iniciar Embarque</button></div></div>`;
+  document.body.appendChild(o);setTimeout(()=>o.querySelector('#mFrota').focus(),100);
+}
+function createFleet(btn){
+  const frota=document.getElementById('mFrota').value.trim().toUpperCase();
+  const horario=document.getElementById('mHorario').value;
+  if(!frota){showToast('red','⚠️','Frota obrigatória','');return;}
+  if(!horario){showToast('red','⚠️','Horário obrigatório','');return;}
+  if(Object.values(fleets).find(f=>f.frota===frota)){showToast('red','⚠️','Frota duplicada','Frota '+frota+' já está ativa');return;}
+  btn.closest('.modal-overlay').remove();
+  const id='f'+Date.now();
+  fleets[id]={id,frota,horario,passengers:[],logs:[],nextId:1};
+  activeFleetId=id;currentFilter='all';searchTerm='';
+  addLog('fleet','Frota <strong>'+frota+'</strong> iniciada — partida '+horario);
+  renderTabs();showFleetContent();
+  showToast('blue','🚌','Frota '+frota,'Partida '+horario);
+}
+function showFleetContent(){
+  const f=fleets[activeFleetId];if(!f)return;
+  document.getElementById('noFleetState').style.display='none';
+  document.getElementById('fleetContent').style.display='block';
+  document.getElementById('fleetInfoBar').innerHTML=`<div class="fleet-info-item"><div class="fi-label">Frota</div><div class="fi-val">${f.frota}</div></div><div class="fleet-divider"></div><div class="fleet-info-item"><div class="fi-label">Horário</div><div class="fi-val">${f.horario}</div></div><div class="fleet-divider"></div><div class="fleet-info-item"><div class="fi-label">Passageiros</div><div class="fi-val" id="fiTotal">${f.passengers.length}</div></div><div class="fleet-divider"></div><div class="fleet-info-item"><div class="fi-label">Embarcados</div><div class="fi-val" style="color:var(--green)" id="fiBoarded">${f.passengers.filter(p=>p.status==='boarded').length}</div></div>`;
+  updateStats();renderList();renderLog();
+}
+function getFleet(){return fleets[activeFleetId]}
+function addLog(type,msg){
+  if(!activeFleetId)return;const f=fleets[activeFleetId];if(!f)return;
+  const time=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  f.logs.unshift({type,msg,time});if(f.logs.length>60)f.logs.pop();renderLog();
+}
+function updateStats(){
+  const f=getFleet();if(!f)return;
+  const total=f.passengers.length,boarded=f.passengers.filter(p=>p.status==='boarded').length;
+  const waiting=f.passengers.filter(p=>p.status==='waiting').length,absent=f.passengers.filter(p=>p.status==='absent').length;
+  const pct=total>0?Math.round(boarded/total*100):0;
+  document.getElementById('statTotal').textContent=total;
+  document.getElementById('statBoarded').textContent=boarded;
+  document.getElementById('statWaiting').textContent=waiting;
+  document.getElementById('statAbsent').textContent=absent;
+  document.getElementById('boardedPct').textContent=pct+'% confirmados';
+  document.getElementById('barTotal').style.width=Math.min(total/44*100,100)+'%';
+  document.getElementById('barBoarded').style.width=pct+'%';
+  const ft=document.getElementById('fiTotal');if(ft)ft.textContent=total;
+  const fb=document.getElementById('fiBoarded');if(fb)fb.textContent=boarded;
+  renderTabs();
+}
+function renderList(){
+  const f=getFleet();if(!f)return;
+  const list=document.getElementById('passengerList');
+  let items=f.passengers.filter(p=>{
+    if(currentFilter!=='all'&&p.status!==currentFilter)return false;
+    if(searchTerm)return p.seat.toLowerCase().includes(searchTerm.toLowerCase());
+    return true;
+  });
+  if(!items.length){list.innerHTML='<div class="empty-state"><div class="empty-icon">💺</div><p>Nenhum passageiro</p></div>';return;}
+  list.innerHTML='';
+  items.forEach((p,idx)=>{
+    const el=document.createElement('div');
+    el.className='passenger-item '+p.status;
+    el.style.animationDelay=idx*0.04+'s';
+    const catTag=p.cat==='leito'?'<span class="tag leito">🛏 Leito</span>':'<span class="tag comum">🪑 Comum</span>';
+    const acts=p.status==='waiting'
+      ?`<button class="btn-board" onclick="boardP('${p.id}',event)">✔ Embarcar</button><button class="btn-absent" onclick="absentP('${p.id}',event)">✗</button>`
+      :`<button class="btn-undo" onclick="undoP('${p.id}',event)">↩</button>`;
+    el.innerHTML=`<div class="seat-badge">${p.seat}</div><div class="passenger-info"><div class="passenger-name">Assento ${p.seat}</div><div class="passenger-detail">${catTag}</div>${p.status==='boarded'&&p.time?'<div class="board-time">✅ '+p.time+'</div>':''}${p.status==='absent'?'<div class="board-time" style="color:var(--red)">❌ Ausente</div>':''}</div><div class="passenger-actions">${acts}</div>`;
+    list.appendChild(el);
+  });
+}
+function boardP(id,e){
+  const f=getFleet();if(!f)return;const p=f.passengers.find(x=>x.id===id);if(!p)return;
+  p.status='boarded';p.time=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  addLog('board','Assento <strong>'+p.seat+'</strong> embarcou');
+  showToast('green','✅','Assento '+p.seat,'Embarque confirmado');rippleEffect(e);refresh();
+}
+function absentP(id,e){
+  const f=getFleet();if(!f)return;const p=f.passengers.find(x=>x.id===id);if(!p)return;
+  p.status='absent';addLog('absent','Assento <strong>'+p.seat+'</strong> ausente');
+  showToast('red','❌','Assento '+p.seat,'Marcado ausente');rippleEffect(e);refresh();
+}
+function undoP(id,e){
+  const f=getFleet();if(!f)return;const p=f.passengers.find(x=>x.id===id);if(!p)return;
+  p.status='waiting';p.time=null;addLog('undo','Assento <strong>'+p.seat+'</strong> revertido');
+  showToast('blue','↩','Assento '+p.seat,'Status revertido');rippleEffect(e);refresh();
+}
+function addPassenger(){
+  const f=getFleet();if(!f){showToast('red','⚠️','Sem frota ativa','Crie uma frota primeiro');return;}
+  const seat=document.getElementById('inputSeat').value.trim().toUpperCase();
+  const cat=document.getElementById('inputCat').value;
+  if(!seat){showToast('red','⚠️','Assento obrigatório','');return;}
+  if(f.passengers.find(p=>p.seat===seat)){showToast('red','⚠️','Assento ocupado',seat+' já cadastrado');return;}
+  const id='p'+(f.nextId++);
+  f.passengers.push({id,seat,cat,status:'waiting',time:null});
+  addLog('add','Assento <strong>'+seat+'</strong> ('+( cat==='leito'?'Leito':'Comum')+') adicionado');
+  showToast('blue','💺','Assento '+seat,cat==='leito'?'🛏 Leito':'🪑 Comum');
+  document.getElementById('inputSeat').value='';document.getElementById('inputCat').value='';refresh();
+}
+function renderLog(){
+  const f=getFleet();const wrap=document.getElementById('logWrap');if(!wrap)return;
+  if(!f||!f.logs.length){wrap.innerHTML='<div class="empty-state"><div class="empty-icon">📝</div><p>Nenhuma atividade</p></div>';return;}
+  wrap.innerHTML=f.logs.slice(0,15).map(l=>`<div class="log-item"><span class="log-time">${l.time}</span><div class="log-dot ${l.type}"></div><span class="log-msg">${l.msg}</span></div>`).join('');
+}
+function showToast(color,icon,title,sub){
+  const c=document.getElementById('toastContainer');const t=document.createElement('div');
+  t.className='toast '+color;t.innerHTML=`<span class="toast-icon">${icon}</span><div class="toast-text"><strong>${title}</strong><small>${sub}</small></div>`;
+  c.appendChild(t);setTimeout(()=>{t.classList.add('out');setTimeout(()=>t.remove(),250);},3000);
+}
+function rippleEffect(e){
+  if(!e||!e.currentTarget)return;const btn=e.currentTarget;
+  const r=document.createElement('span');r.className='ripple';
+  const rect=btn.getBoundingClientRect(),size=Math.max(rect.width,rect.height);
+  r.style.width=r.style.height=size+'px';r.style.left=(e.clientX-rect.left-size/2)+'px';r.style.top=(e.clientY-rect.top-size/2)+'px';
+  btn.style.position='relative';btn.appendChild(r);setTimeout(()=>r.remove(),600);
+}
+function finalizeBoarding(){
+  const f=getFleet();if(!f){showToast('red','⚠️','Nenhuma frota ativa','Selecione uma frota');return;}
+  const boarded=f.passengers.filter(p=>p.status==='boarded').length;
+  const absent=f.passengers.filter(p=>p.status==='absent').length;
+  const waiting=f.passengers.filter(p=>p.status==='waiting').length;
+  const o=document.createElement('div');o.className='modal-overlay';
+  o.innerHTML=`<div class="modal-box"><div class="modal-icon">🏁</div><div class="modal-title">Finalizar Embarque?</div><div class="modal-fleet-name">Frota ${f.frota} · ${f.horario}</div><div class="modal-desc">O embarque será salvo no histórico e a frota removida das abas.</div><div class="modal-summary"><div class="msumm mb"><span class="mv">${boarded}</span><span class="ml">Embarcados</span></div><div class="msumm ma"><span class="mv">${absent}</span><span class="ml">Ausentes</span></div><div class="msumm mw"><span class="mv">${waiting}</span><span class="ml">Aguardando</span></div></div><div class="modal-btns"><button class="modal-btn-cancel" onclick="this.closest('.modal-overlay').remove()">Cancelar</button><button class="modal-btn-confirm" onclick="confirmFinalize('${f.id}',this)">✔ Confirmar</button></div></div>`;
+  document.body.appendChild(o);
+}
+function confirmFinalize(fid,btn){
+  btn.closest('.modal-overlay').remove();const f=fleets[fid];if(!f)return;
+  const now=new Date(),history=loadHistory();
+  history.push({id:Date.now(),frota:f.frota,horario:f.horario,date:now.toLocaleDateString('pt-BR'),time:now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}),boarded:f.passengers.filter(p=>p.status==='boarded').length,absent:f.passengers.filter(p=>p.status==='absent').length,passengers:f.passengers.map(p=>({seat:p.seat,cat:p.cat,status:p.status}))});
+  saveHistory(history);
+  showToast('green','🏁','Frota '+f.frota+' finalizada',now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
+  delete fleets[fid];const rem=Object.keys(fleets);activeFleetId=rem.length?rem[rem.length-1]:null;
+  renderTabs();
+  if(activeFleetId)showFleetContent();
+  else{document.getElementById('fleetContent').style.display='none';document.getElementById('noFleetState').style.display='flex';}
+  renderHistory();setTimeout(()=>document.getElementById('historySection').scrollIntoView({behavior:'smooth'}),400);
+}
+const HIST_KEY='tc_v3';
+function loadHistory(){try{return JSON.parse(localStorage.getItem(HIST_KEY)||'[]');}catch{return[];}}
+function saveHistory(h){localStorage.setItem(HIST_KEY,JSON.stringify(h));}
+function renderHistory(){
+  const h=loadHistory();const sec=document.getElementById('historySection');const el=document.getElementById('historyList');
+  if(!h.length){sec.style.display='none';return;}
+  sec.style.display='block';
+  el.innerHTML='<div class="history-grid">'+h.slice().reverse().map((e,i)=>`<div class="history-card" style="animation-delay:${i*.06}s"><div class="history-card-top"><div><div class="history-fleet-name">🚌 Frota ${e.frota}</div><div class="history-fleet-hora">⏰ Partida: ${e.horario}</div></div><div><span class="hdate">${e.date}</span><span class="htime">${e.time}</span></div></div><div class="history-stats-row"><div class="hstat htotal"><span class="hval">${e.passengers.length}</span><span class="hlbl">Total</span></div><div class="hstat hboard"><span class="hval">${e.boarded}</span><span class="hlbl">Emb.</span></div><div class="hstat habsent"><span class="hval">${e.absent}</span><span class="hlbl">Aus.</span></div></div><div class="history-pass-list">${e.passengers.map(p=>`<div class="hpass-item"><span class="hpass-seat">${p.seat}</span><span class="hpass-cat">${p.cat==='leito'?'🛏 Leito':'🪑 Comum'}</span><span>${p.status==='boarded'?'✅':p.status==='absent'?'❌':'⏳'}</span></div>`).join('')}</div></div>`).join('')+'</div>';
+}
+function clearHistory(){if(!confirm('Apagar todo o histórico?'))return;localStorage.removeItem(HIST_KEY);renderHistory();showToast('red','🗑','Histórico apagado','');}
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentFilter=btn.dataset.filter;renderList();});
+});
+document.getElementById('searchInput').addEventListener('input',e=>{searchTerm=e.target.value;renderList();});
+function refresh(){updateStats();renderList();}
+renderTabs();renderHistory();
+document.querySelectorAll('.fade-in').forEach((el,i)=>{el.style.animationDelay=i*0.07+'s';});
+</script>
 </body>
 </html>
