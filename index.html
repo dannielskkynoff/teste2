@@ -6,18 +6,29 @@
 <title>Liderança — Embarque</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root {
+/* LIGHT (default) */
+:root{
+  --bg:#f2faf5; --surface:#ffffff; --panel:#ffffff; --border:#c6e8d4;
+  --accent:#00a843; --accent2:#00c853; --accent-dark:#007a30;
+  --green:#00a843; --yellow:#d4900a; --red:#e53935;
+  --text:#18291f; --muted:#5a9070; --card:#ffffff;
+  --hbg:rgba(242,250,245,.97);
+}
+/* DARK */
+body.dark{
   --bg:#07100d; --surface:#0b1a12; --panel:#0e1f16; --border:#1a3326;
   --accent:#00c853; --accent2:#69f0ae; --accent-dark:#00962e;
   --green:#00e676; --yellow:#ffd740; --red:#ff4d6d;
   --text:#e0f2e9; --muted:#4a7a60; --card:#0c1a11;
+  --hbg:rgba(7,16,13,.96);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,83,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,83,.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;transition:background .22s,color .22s;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,168,67,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,168,67,.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+body.dark::before{background-image:linear-gradient(rgba(0,200,83,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,83,.025) 1px,transparent 1px);}
 
 /* HEADER */
-header{position:sticky;top:0;z-index:100;background:rgba(7,16,13,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 14px;display:flex;align-items:center;justify-content:space-between;height:54px;gap:10px;}
+header{position:sticky;top:0;z-index:100;background:var(--hbg);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 14px;display:flex;align-items:center;justify-content:space-between;height:54px;gap:10px;}
 .logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
 .logo-slot{width:36px;height:36px;border-radius:9px;border:1.5px dashed rgba(0,200,83,.4);background:rgba(0,200,83,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;position:relative;transition:border-color .2s,background .2s;flex-shrink:0;}
 .logo-slot:hover{border-color:var(--accent);background:rgba(0,200,83,.1);}
@@ -54,7 +65,8 @@ main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:14px 12p
 /* STATS */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
 @media(max-width:500px){.stats-grid{grid-template-columns:repeat(2,1fr);}}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 13px;position:relative;overflow:hidden;transition:transform .18s;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 13px;position:relative;overflow:hidden;transition:transform .18s;box-shadow:0 1px 5px rgba(0,0,0,.05);}
+body.dark .stat-card{box-shadow:none;}
 .stat-card:active{transform:scale(.97);}
 .stat-card::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;}
 .stat-card.sg::after{background:linear-gradient(90deg,var(--accent),transparent);}
@@ -78,9 +90,14 @@ main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:14px 12p
 @media(max-width:860px){.columns{grid-template-columns:1fr;}}
 
 /* PANEL */
-.panel{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.06);}
+body.dark .panel{box-shadow:none;}
 .panel-header{padding:13px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
 .panel-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1.5px;color:var(--text);display:flex;align-items:center;gap:7px;}
+
+/* THEME TOGGLE */
+.theme-toggle{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .2s;flex-shrink:0;}
+.theme-toggle:hover{border-color:var(--accent);background:rgba(0,168,67,.08);}
 
 /* CONTROLS */
 .controls{display:flex;gap:7px;flex-wrap:wrap;align-items:center;flex:1;}
@@ -166,7 +183,7 @@ main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:14px 12p
 
 /* TOAST */
 .toast-container{position:fixed;bottom:18px;right:14px;z-index:9999;display:flex;flex-direction:column;gap:7px;pointer-events:none;}
-.toast{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:10px 13px;font-size:12px;display:flex;align-items:center;gap:8px;animation:toastIn .28s cubic-bezier(.34,1.56,.64,1) both;box-shadow:0 6px 24px rgba(0,0,0,.5);min-width:200px;max-width:280px;pointer-events:auto;}
+.toast{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:10px 13px;font-size:12px;display:flex;align-items:center;gap:8px;animation:toastIn .28s cubic-bezier(.34,1.56,.64,1) both;box-shadow:0 6px 24px rgba(0,0,0,.13);min-width:200px;max-width:280px;pointer-events:auto;}
 @keyframes toastIn{from{opacity:0;transform:translateX(28px) scale(.9)}to{opacity:1;transform:translateX(0) scale(1)}}
 .toast.out{animation:toastOut .2s ease forwards;}
 @keyframes toastOut{to{opacity:0;transform:translateX(28px) scale(.95)}}
@@ -185,7 +202,8 @@ main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:14px 12p
 .btn-clear-history{background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.2);border-radius:8px;padding:5px 12px;color:var(--red);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all .18s;}
 .btn-clear-history:hover{background:rgba(255,77,109,.16);}
 .history-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;}
-.history-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 15px;animation:slideIn .3s ease both;position:relative;overflow:hidden;}
+.history-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 15px;animation:slideIn .3s ease both;position:relative;overflow:hidden;box-shadow:0 1px 5px rgba(0,0,0,.05);}
+body.dark .history-card{box-shadow:none;}
 .history-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--accent),transparent);}
 .history-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:8px;}
 .hc-frota{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--accent);}
@@ -261,6 +279,7 @@ main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:14px 12p
   <div class="header-right">
     <div class="live-badge"><div class="live-dot"></div>Ao Vivo</div>
     <div class="clock" id="clock">--:--:--</div>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Alternar tema">☀️</button>
   </div>
 </header>
 
@@ -702,14 +721,25 @@ document.querySelectorAll('.filter-btn').forEach(btn=>{
 document.getElementById('searchInput').addEventListener('input',e=>{searchTerm=e.target.value;renderList();});
 document.getElementById('inputSeat').addEventListener('keydown',e=>{if(e.key==='Enter')addPassenger();});
 
+// THEME
+const THEME_KEY='lideranca_theme';
+function applyTheme(dark){
+  document.body.classList.toggle('dark',dark);
+  document.getElementById('themeToggle').textContent=dark?'🌙':'☀️';
+}
+function toggleTheme(){
+  const isDark=!document.body.classList.contains('dark');
+  localStorage.setItem(THEME_KEY,isDark?'dark':'light');
+  applyTheme(isDark);
+}
+// Load saved theme — default is LIGHT
+(()=>{const t=localStorage.getItem(THEME_KEY);applyTheme(t==='dark');})();
+
 // REFRESH
 function refresh(){renderTabs();updateStats();renderList();}
 
-// INIT
-if(!loadCarsData()){
-  const d={id:nextCarId++,frota:'4501',horario:'07:30',passengers:[]};
-  cars.push(d);activeCar=d.id;saveCars();
-}
+// INIT — no default car, start empty
+if(!loadCarsData()){saveCars();}
 refresh();renderHistory();
 </script>
 </body>
