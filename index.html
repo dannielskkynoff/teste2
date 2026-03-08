@@ -3,261 +3,372 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TransControl</title>
+<title>Liderança — Embarque</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080c14;--surface:#0d1420;--panel:#111827;--border:#1e2d45;--accent:#00d4ff;--accent2:#ff6b35;--green:#00e676;--yellow:#ffd740;--red:#ff4d6d;--text:#e8f0fe;--muted:#5a7a9a;--card:#0f1c2e}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
-header{position:sticky;top:0;z-index:100;background:rgba(8,12,20,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
-.logo{display:flex;align-items:center;gap:12px}
-.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--accent),#0080ff);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 20px rgba(0,212,255,.4)}
-.logo-text{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px}
-.logo-text span{color:var(--accent)}
-.header-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.live-badge{display:flex;align-items:center;gap:6px;background:rgba(0,230,118,.1);border:1px solid rgba(0,230,118,.3);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--green);letter-spacing:1px;text-transform:uppercase}
-.live-dot{width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse 1.5s ease infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
-.clock{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--muted)}
-.btn-finalize{background:linear-gradient(135deg,#ff6b35,#ff4d6d);border:none;border-radius:10px;padding:8px 16px;color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.5px;transition:all .2s;white-space:nowrap}
-.btn-finalize:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,77,109,.4)}
-.fleet-bar{position:relative;z-index:1;background:rgba(8,12,20,.85);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;overflow-x:auto}
-.fleet-bar::-webkit-scrollbar{height:3px}
-.fleet-bar::-webkit-scrollbar-thumb{background:var(--border)}
-.fleet-tab{display:flex;align-items:center;gap:10px;padding:12px 18px;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);transition:all .2s;white-space:nowrap;user-select:none}
-.fleet-tab:hover{color:var(--text)}
-.fleet-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.tab-main{display:flex;flex-direction:column;gap:1px}
-.tab-frota{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:1px;line-height:1}
-.tab-hora{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)}
-.fleet-tab.active .tab-hora{color:rgba(0,212,255,.6)}
-.tab-badge{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:2px 8px;font-size:10px;font-family:'JetBrains Mono',monospace}
-.fleet-tab.active .tab-badge{background:rgba(0,212,255,.1);border-color:rgba(0,212,255,.3);color:var(--accent)}
-.tab-close{font-size:13px;color:var(--muted);opacity:0;transition:opacity .15s;padding:2px 4px;border-radius:4px}
-.fleet-tab:hover .tab-close{opacity:1}
-.tab-close:hover{color:var(--red)!important;background:rgba(255,77,109,.1)}
-.btn-add-fleet{display:flex;align-items:center;gap:6px;padding:10px 16px;background:none;border:1px dashed var(--border);border-radius:8px;margin:8px 0 8px 8px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
-.btn-add-fleet:hover{border-color:var(--accent);color:var(--accent)}
-main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:24px 20px}
-.no-fleet-state{text-align:center;padding:70px 20px;display:flex;flex-direction:column;align-items:center;gap:14px}
-.nf-icon{font-size:56px}
-.nf-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--muted)}
-.nf-sub{font-size:14px;color:var(--muted)}
-.fleet-info-bar{display:flex;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:20px;overflow:hidden;flex-wrap:wrap}
-.fleet-info-item{display:flex;flex-direction:column;gap:2px;padding:14px 20px;flex:1;min-width:80px}
-.fi-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px}
-.fi-val{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:var(--accent)}
-.fleet-divider{width:1px;height:40px;background:var(--border);align-self:center}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:24px}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 20px;position:relative;overflow:hidden;transition:transform .2s,border-color .2s}
-.stat-card:hover{transform:translateY(-2px);border-color:rgba(0,212,255,.3)}
-.stat-card::before{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px}
-.stat-card.blue::before{background:linear-gradient(90deg,var(--accent),transparent)}
-.stat-card.green::before{background:linear-gradient(90deg,var(--green),transparent)}
-.stat-card.orange::before{background:linear-gradient(90deg,var(--accent2),transparent)}
-.stat-card.red::before{background:linear-gradient(90deg,var(--red),transparent)}
-.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px}
-.stat-value{font-family:'Bebas Neue',sans-serif;font-size:42px;line-height:1}
-.stat-card.blue .stat-value{color:var(--accent)}
-.stat-card.green .stat-value{color:var(--green)}
-.stat-card.orange .stat-value{color:var(--accent2)}
-.stat-card.red .stat-value{color:var(--red)}
-.stat-sub{font-size:11px;color:var(--muted);margin-top:4px}
-.progress-wrap{margin-top:10px;height:4px;background:var(--border);border-radius:4px;overflow:hidden}
-.progress-bar{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1)}
-.stat-card.green .progress-bar{background:var(--green)}
-.stat-card.blue .progress-bar{background:var(--accent)}
-.columns{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start}
-@media(max-width:900px){.columns{grid-template-columns:1fr}}
-.panel{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden}
-.panel-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.panel-title{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:1.5px;display:flex;align-items:center;gap:8px}
-.controls{display:flex;gap:8px;flex-wrap:wrap}
-.search-wrap{position:relative;flex:1;min-width:160px}
-.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;pointer-events:none}
-.search-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:7px 11px 7px 32px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s}
-.search-input::placeholder{color:var(--muted)}
-.search-input:focus{border-color:var(--accent)}
-.filter-btn{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:7px 12px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap}
-.filter-btn:hover,.filter-btn.active{background:rgba(0,212,255,.1);border-color:var(--accent);color:var(--accent)}
-.passenger-list{max-height:520px;overflow-y:auto;padding:8px}
-.passenger-list::-webkit-scrollbar{width:4px}
-.passenger-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-.passenger-item{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:12px;margin-bottom:4px;transition:background .15s;border:1px solid transparent;animation:slideIn .3s ease both}
-@keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
-.passenger-item:hover{background:rgba(255,255,255,.04);border-color:var(--border)}
-.passenger-item.boarded{background:rgba(0,230,118,.05);border-color:rgba(0,230,118,.15)}
-.passenger-item.absent{opacity:.55;background:rgba(255,77,109,.04);border-color:rgba(255,77,109,.1)}
-.seat-badge{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;flex-shrink:0;background:var(--surface);border:1px solid var(--border);color:var(--muted);transition:all .3s}
-.passenger-item.boarded .seat-badge{background:rgba(0,230,118,.12);border-color:var(--green);color:var(--green)}
-.passenger-item.absent .seat-badge{background:rgba(255,77,109,.1);border-color:var(--red);color:var(--red)}
-.passenger-info{flex:1;min-width:0}
-.passenger-name{font-size:14px;font-weight:600;color:var(--text)}
-.passenger-detail{font-size:11px;color:var(--muted);margin-top:2px}
-.tag{display:inline-flex;align-items:center;gap:3px;border-radius:5px;padding:1px 7px;font-size:10px;letter-spacing:.5px}
-.tag.leito{color:var(--yellow);background:rgba(255,215,64,.08)}
-.tag.comum{color:var(--muted);background:rgba(255,255,255,.05)}
-.board-time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);margin-top:2px}
-.passenger-actions{display:flex;gap:6px;flex-shrink:0}
-.btn-board,.btn-absent,.btn-undo{padding:6px 13px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid;white-space:nowrap}
-.btn-board{background:rgba(0,230,118,.1);border-color:rgba(0,230,118,.3);color:var(--green)}
-.btn-board:hover{background:var(--green);color:#000;box-shadow:0 0 16px rgba(0,230,118,.4)}
-.btn-absent{background:rgba(255,77,109,.08);border-color:rgba(255,77,109,.25);color:var(--red)}
-.btn-absent:hover{background:var(--red);color:#fff}
-.btn-undo{background:rgba(255,255,255,.05);border-color:var(--border);color:var(--muted)}
-.btn-undo:hover{background:rgba(255,255,255,.1);color:var(--text)}
-.add-panel{padding:16px}
-.add-form{display:flex;flex-direction:column;gap:10px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.form-group{display:flex;flex-direction:column;gap:5px}
-.form-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:600}
-.form-input,.form-select{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s;width:100%}
-.form-input::placeholder{color:var(--muted)}
-.form-input:focus,.form-select:focus{border-color:var(--accent)}
-.form-select{cursor:pointer}
-.form-select option{background:var(--surface)}
-.btn-add{background:linear-gradient(135deg,var(--accent),#0080ff);border:none;border-radius:10px;padding:11px;color:#000;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.5px}
-.btn-add:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,212,255,.35)}
-.log-wrap{padding:0 8px 8px;max-height:200px;overflow-y:auto}
-.log-wrap::-webkit-scrollbar{width:3px}
-.log-wrap::-webkit-scrollbar-thumb{background:var(--border)}
-.log-item{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;font-size:12px;animation:logIn .3s ease}
-@keyframes logIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
-.log-item:hover{background:rgba(255,255,255,.03)}
-.log-time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);min-width:52px}
-.log-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.log-dot.board{background:var(--green)}.log-dot.absent{background:var(--red)}
-.log-dot.add{background:var(--accent)}.log-dot.undo{background:var(--yellow)}
-.log-dot.fleet{background:var(--accent2)}
-.log-msg{color:var(--text)}.log-msg strong{color:var(--accent);font-weight:600}
-.toast-container{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none}
-.toast{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:13px;display:flex;align-items:center;gap:10px;animation:toastIn .3s cubic-bezier(.34,1.56,.64,1) both;box-shadow:0 8px 32px rgba(0,0,0,.5);min-width:240px;max-width:320px;pointer-events:auto}
-@keyframes toastIn{from{opacity:0;transform:translateX(40px) scale(.9)}to{opacity:1;transform:translateX(0) scale(1)}}
-.toast.out{animation:toastOut .25s ease forwards}
-@keyframes toastOut{to{opacity:0;transform:translateX(40px) scale(.95)}}
-.toast-icon{font-size:18px}.toast-text{flex:1}
-.toast-text strong{display:block;font-weight:600}.toast-text small{color:var(--muted);font-size:11px}
-.toast.green{border-color:rgba(0,230,118,.3)}.toast.red{border-color:rgba(255,77,109,.3)}
-.toast.blue{border-color:rgba(0,212,255,.3)}.toast.yellow{border-color:rgba(255,215,64,.3)}
-.empty-state{text-align:center;padding:40px 20px;color:var(--muted)}
-.empty-state .empty-icon{font-size:36px;margin-bottom:10px}
-.empty-state p{font-size:13px}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .2s ease}
-.modal-box{background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:30px 28px;max-width:420px;width:100%;text-align:center;animation:popIn .3s cubic-bezier(.34,1.56,.64,1)}
-@keyframes popIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
-.modal-icon{font-size:42px;margin-bottom:12px}
-.modal-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;margin-bottom:8px}
-.modal-desc{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5}
-.modal-fleet-name{font-family:'JetBrains Mono',monospace;font-size:17px;color:var(--accent2);margin-bottom:16px;font-weight:600}
-.modal-summary{display:flex;justify-content:center;gap:16px;margin-bottom:22px}
-.msumm{display:flex;flex-direction:column;align-items:center;gap:2px}
-.msumm .mv{font-family:'Bebas Neue',sans-serif;font-size:32px;line-height:1}
-.msumm .ml{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.msumm.mb .mv{color:var(--green)}.msumm.ma .mv{color:var(--red)}.msumm.mw .mv{color:var(--yellow)}
-.modal-btns{display:flex;gap:10px}
-.modal-btn-cancel{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:11px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
-.modal-btn-cancel:hover{color:var(--text)}
-.modal-btn-confirm{flex:1;background:linear-gradient(135deg,#ff6b35,#ff4d6d);border:none;border-radius:10px;padding:11px;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
-.modal-btn-confirm:hover{box-shadow:0 6px 20px rgba(255,77,109,.4);transform:translateY(-1px)}
-.modal-btn-blue{background:linear-gradient(135deg,var(--accent),#0080ff)!important;color:#000!important}
-#historySection{position:relative;z-index:1;border-top:1px solid var(--border);margin-top:32px;padding:24px 20px 48px}
-.history-inner{max-width:1400px;margin:0 auto}
-.history-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
-.history-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--muted)}
-.btn-clear-history{background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.2);border-radius:8px;padding:6px 14px;color:var(--red);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
-.btn-clear-history:hover{background:rgba(255,77,109,.15)}
-.history-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
-.history-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 18px;animation:slideIn .35s ease both;position:relative;overflow:hidden}
-.history-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--accent2),var(--red))}
-.history-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:8px}
-.history-fleet-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--accent2);line-height:1}
-.history-fleet-hora{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px}
-.hdate{display:block;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--accent)}
-.htime{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)}
-.history-stats-row{display:flex;gap:8px;margin-bottom:10px}
-.hstat{display:flex;flex-direction:column;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 10px;flex:1}
-.hstat .hval{font-family:'Bebas Neue',sans-serif;font-size:20px;line-height:1}
-.hstat .hlbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
-.hstat.htotal .hval{color:var(--accent)}.hstat.hboard .hval{color:var(--green)}.hstat.habsent .hval{color:var(--red)}
-.history-pass-list{max-height:100px;overflow-y:auto;display:flex;flex-direction:column;gap:3px}
-.history-pass-list::-webkit-scrollbar{width:3px}
-.history-pass-list::-webkit-scrollbar-thumb{background:var(--border)}
-.hpass-item{display:flex;align-items:center;gap:8px;font-size:11px;padding:3px 6px;border-radius:6px;background:rgba(255,255,255,.02)}
-.hpass-seat{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);min-width:32px}
-.hpass-cat{flex:1;color:var(--text)}
-@media(max-width:600px){header{padding:0 14px}.form-row{grid-template-columns:1fr}.passenger-actions{flex-direction:column;gap:4px}.btn-board,.btn-absent,.btn-undo{padding:5px 10px;font-size:11px}.toast-container{bottom:12px;right:12px;left:12px}.toast{min-width:unset}.clock{display:none}}
-.fade-in{animation:fadeIn .5s ease both}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.ripple{position:absolute;border-radius:50%;background:rgba(0,230,118,.3);transform:scale(0);animation:rippleAnim .6s linear;pointer-events:none}
-@keyframes rippleAnim{to{transform:scale(4);opacity:0}}
+:root {
+  --bg:#07100d; --surface:#0b1a12; --panel:#0e1f16; --border:#1a3326;
+  --accent:#00c853; --accent2:#69f0ae; --accent-dark:#00962e;
+  --green:#00e676; --yellow:#ffd740; --red:#ff4d6d;
+  --text:#e0f2e9; --muted:#4a7a60; --card:#0c1a11;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,83,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,83,.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:100;background:rgba(7,16,13,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 14px;display:flex;align-items:center;justify-content:space-between;height:54px;gap:10px;}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.logo-slot{width:36px;height:36px;border-radius:9px;border:1.5px dashed rgba(0,200,83,.4);background:rgba(0,200,83,.05);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;position:relative;transition:border-color .2s,background .2s;flex-shrink:0;}
+.logo-slot:hover{border-color:var(--accent);background:rgba(0,200,83,.1);}
+.logo-slot input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.logo-slot img{width:100%;height:100%;object-fit:contain;display:none;}
+.logo-slot .logo-ph{font-size:15px;pointer-events:none;}
+.logo-text{font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:2px;color:var(--text);}
+.logo-text span{color:var(--accent);}
+.header-right{display:flex;align-items:center;gap:8px;}
+.live-badge{display:flex;align-items:center;gap:5px;background:rgba(0,230,118,.08);border:1px solid rgba(0,230,118,.2);border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;color:var(--green);letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+.live-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 1.5s ease infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.6)}}
+.clock{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);white-space:nowrap;}
+@media(max-width:420px){.clock{display:none;}}
+
+/* MAIN */
+main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:14px 12px;}
+
+/* CAR TABS */
+.car-tabs-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;-ms-overflow-style:none;scrollbar-width:none;}
+.car-tabs-bar::-webkit-scrollbar{display:none;}
+.car-tab{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:11px;padding:7px 13px;cursor:pointer;transition:all .2s;font-size:13px;font-weight:600;white-space:nowrap;flex-shrink:0;user-select:none;}
+.car-tab:hover{border-color:rgba(0,200,83,.35);background:rgba(0,200,83,.04);}
+.car-tab.active{background:rgba(0,200,83,.1);border-color:var(--accent);color:var(--accent);}
+.tab-frota{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;}
+.tab-hour{font-size:11px;color:var(--muted);}
+.car-tab.active .tab-hour{color:rgba(0,200,83,.6);}
+.tab-badge{background:var(--accent);color:#000;border-radius:20px;padding:1px 7px;font-size:10px;font-weight:800;}
+.tab-close{width:16px;height:16px;border-radius:50%;background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.2);color:var(--red);font-size:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .18s;flex-shrink:0;}
+.tab-close:hover{background:var(--red);color:#fff;border-color:var(--red);}
+.btn-add-car{background:rgba(0,200,83,.06);border:1.5px dashed rgba(0,200,83,.35);border-radius:11px;padding:7px 13px;color:var(--accent);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.btn-add-car:hover{background:rgba(0,200,83,.12);border-style:solid;}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
+@media(max-width:500px){.stats-grid{grid-template-columns:repeat(2,1fr);}}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 13px;position:relative;overflow:hidden;transition:transform .18s;}
+.stat-card:active{transform:scale(.97);}
+.stat-card::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;}
+.stat-card.sg::after{background:linear-gradient(90deg,var(--accent),transparent);}
+.stat-card.sg2::after{background:linear-gradient(90deg,var(--accent2),transparent);}
+.stat-card.so::after{background:linear-gradient(90deg,#ff9800,transparent);}
+.stat-card.sr::after{background:linear-gradient(90deg,var(--red),transparent);}
+.stat-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
+.stat-value{font-family:'Bebas Neue',sans-serif;font-size:34px;line-height:1;}
+.stat-card.sg .stat-value{color:var(--accent);}
+.stat-card.sg2 .stat-value{color:var(--accent2);}
+.stat-card.so .stat-value{color:#ff9800;}
+.stat-card.sr .stat-value{color:var(--red);}
+.stat-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+.pw{margin-top:6px;height:3px;background:var(--border);border-radius:4px;overflow:hidden;}
+.pb{height:100%;border-radius:4px;transition:width .5s ease;}
+.stat-card.sg .pb{background:var(--accent);}
+.stat-card.sg2 .pb{background:var(--accent2);}
+
+/* LAYOUT */
+.columns{display:grid;grid-template-columns:1fr 340px;gap:14px;align-items:start;}
+@media(max-width:860px){.columns{grid-template-columns:1fr;}}
+
+/* PANEL */
+.panel{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.panel-header{padding:13px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.panel-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1.5px;color:var(--text);display:flex;align-items:center;gap:7px;}
+
+/* CONTROLS */
+.controls{display:flex;gap:7px;flex-wrap:wrap;align-items:center;flex:1;}
+.search-wrap{position:relative;flex:1;min-width:120px;}
+.si{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;pointer-events:none;}
+.search-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:7px 10px 7px 29px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;outline:none;transition:border-color .2s;}
+.search-input::placeholder{color:var(--muted);}
+.search-input:focus{border-color:var(--accent);}
+.filters{display:flex;gap:4px;}
+.filter-btn{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:6px 9px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;transition:all .18s;white-space:nowrap;}
+.filter-btn:hover,.filter-btn.active{background:rgba(0,200,83,.12);border-color:var(--accent);color:var(--accent);}
+
+/* PASSENGER LIST */
+.passenger-list{max-height:540px;overflow-y:auto;padding:6px;}
+.passenger-list::-webkit-scrollbar{width:3px;}
+.passenger-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+.passenger-item{display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:11px;margin-bottom:4px;border:1px solid transparent;animation:slideIn .25s ease both;transition:background .15s,border-color .15s;}
+@keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+.passenger-item:hover{background:rgba(255,255,255,.03);border-color:var(--border);}
+.passenger-item.boarded{background:rgba(0,200,83,.07);border-color:rgba(0,200,83,.2);}
+.passenger-item.absent{opacity:.5;background:rgba(255,77,109,.04);border-color:rgba(255,77,109,.12);}
+.seat-badge{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:800;flex-shrink:0;background:var(--surface);border:1px solid var(--border);color:var(--muted);transition:all .25s;}
+.passenger-item.boarded .seat-badge{background:rgba(0,200,83,.14);border-color:var(--accent);color:var(--accent);}
+.passenger-item.absent  .seat-badge{background:rgba(255,77,109,.1);border-color:var(--red);color:var(--red);}
+.passenger-info{flex:1;min-width:0;}
+.passenger-main{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.passenger-seat-lbl{font-size:13px;font-weight:700;color:var(--text);}
+.passenger-detail{font-size:11px;color:var(--muted);margin-top:2px;display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
+.tag{display:inline-flex;align-items:center;gap:3px;border-radius:5px;padding:2px 7px;font-size:10px;font-weight:700;letter-spacing:.3px;}
+.tag.leito{color:var(--yellow);background:rgba(255,215,64,.1);}
+.tag.comum{color:var(--muted);background:rgba(255,255,255,.05);}
+.tag.ph{color:#80cbc4;background:rgba(128,203,196,.12);}
+.tag.keila{color:#ce93d8;background:rgba(206,147,216,.12);}
+.board-time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);}
+.absent-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--red);}
+.passenger-actions{display:flex;gap:5px;flex-shrink:0;}
+.btn-board,.btn-absent,.btn-undo{padding:7px 12px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all .18s;border:1px solid;white-space:nowrap;touch-action:manipulation;}
+.btn-board{background:rgba(0,200,83,.1);border-color:rgba(0,200,83,.3);color:var(--accent);}
+.btn-board:hover,.btn-board:active{background:var(--accent);color:#000;box-shadow:0 0 12px rgba(0,200,83,.4);}
+.btn-absent{background:rgba(255,77,109,.08);border-color:rgba(255,77,109,.25);color:var(--red);}
+.btn-absent:hover,.btn-absent:active{background:var(--red);color:#fff;}
+.btn-undo{background:rgba(255,255,255,.05);border-color:var(--border);color:var(--muted);}
+.btn-undo:hover,.btn-undo:active{background:rgba(255,255,255,.1);color:var(--text);}
+
+/* ADD FORM */
+.add-panel{padding:14px;}
+.add-form{display:flex;flex-direction:column;gap:10px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;}
+.form-input,.form-select{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:9px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%;-webkit-appearance:none;}
+.form-input::placeholder{color:var(--muted);}
+.form-input:focus,.form-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,200,83,.1);}
+.form-select option{background:var(--surface);color:var(--text);}
+
+/* AGENCY BUTTONS */
+.agency-row{display:flex;gap:8px;}
+.agency-btn{flex:1;padding:9px 8px;border-radius:9px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .18s;text-align:center;touch-action:manipulation;}
+.agency-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(0,200,83,.05);}
+.agency-btn.sel-ph{border-color:#80cbc4;background:rgba(128,203,196,.1);color:#80cbc4;}
+.agency-btn.sel-keila{border-color:#ce93d8;background:rgba(206,147,216,.1);color:#ce93d8;}
+
+.btn-add{background:linear-gradient(135deg,var(--accent),var(--accent-dark));border:none;border-radius:10px;padding:12px;color:#000;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;letter-spacing:.5px;touch-action:manipulation;}
+.btn-add:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,200,83,.4);}
+.btn-add:active{transform:scale(.97);}
+
+/* FLEET INFO */
+.fleet-info-bar{padding:11px 14px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--border);background:rgba(0,200,83,.03);}
+.fi-item{display:flex;flex-direction:column;gap:2px;}
+.fi-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.fi-value{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;color:var(--accent);}
+
+/* FINALIZE */
+.btn-finalize{background:linear-gradient(135deg,#ff6b35,#ff4d6d);border:none;border-radius:9px;padding:8px 13px;color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:800;cursor:pointer;transition:all .2s;letter-spacing:.3px;white-space:nowrap;touch-action:manipulation;}
+.btn-finalize:hover{box-shadow:0 5px 16px rgba(255,77,109,.4);transform:translateY(-1px);}
+.btn-finalize:active{transform:scale(.97);}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:38px 16px;color:var(--muted);}
+.empty-state .ei{font-size:34px;margin-bottom:8px;opacity:.6;}
+.empty-state p{font-size:12px;line-height:1.6;}
+.empty-state strong{color:var(--accent);}
+
+/* TOAST */
+.toast-container{position:fixed;bottom:18px;right:14px;z-index:9999;display:flex;flex-direction:column;gap:7px;pointer-events:none;}
+.toast{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:10px 13px;font-size:12px;display:flex;align-items:center;gap:8px;animation:toastIn .28s cubic-bezier(.34,1.56,.64,1) both;box-shadow:0 6px 24px rgba(0,0,0,.5);min-width:200px;max-width:280px;pointer-events:auto;}
+@keyframes toastIn{from{opacity:0;transform:translateX(28px) scale(.9)}to{opacity:1;transform:translateX(0) scale(1)}}
+.toast.out{animation:toastOut .2s ease forwards;}
+@keyframes toastOut{to{opacity:0;transform:translateX(28px) scale(.95)}}
+.toast-icon{font-size:16px;}
+.toast-text strong{display:block;font-weight:700;font-size:12px;}
+.toast-text small{color:var(--muted);font-size:10px;}
+.toast.green{border-color:rgba(0,200,83,.35);}
+.toast.red{border-color:rgba(255,77,109,.35);}
+.toast.blue{border-color:rgba(0,200,83,.3);}
+
+/* HISTORY */
+#historySection{position:relative;z-index:1;border-top:1px solid var(--border);margin-top:26px;padding:18px 12px 36px;}
+.history-inner{max-width:1400px;margin:0 auto;}
+.history-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
+.history-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--muted);}
+.btn-clear-history{background:rgba(255,77,109,.08);border:1px solid rgba(255,77,109,.2);border-radius:8px;padding:5px 12px;color:var(--red);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all .18s;}
+.btn-clear-history:hover{background:rgba(255,77,109,.16);}
+.history-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;}
+.history-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 15px;animation:slideIn .3s ease both;position:relative;overflow:hidden;}
+.history-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--accent),transparent);}
+.history-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:8px;}
+.hc-frota{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--accent);}
+.hc-id{font-size:10px;color:var(--muted);margin-top:1px;}
+.hc-dt{font-family:'JetBrains Mono',monospace;text-align:right;}
+.hc-dt .hdate{display:block;font-size:12px;font-weight:700;color:var(--text);}
+.hc-dt .htime{display:block;color:var(--muted);font-size:10px;}
+.history-stats-row{display:flex;gap:7px;margin-bottom:10px;}
+.hstat{display:flex;flex-direction:column;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:5px 8px;flex:1;}
+.hstat .hval{font-family:'Bebas Neue',sans-serif;font-size:19px;line-height:1;}
+.hstat .hlbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-top:1px;}
+.hstat.ht .hval{color:var(--accent);}
+.hstat.hb .hval{color:var(--green);}
+.hstat.ha .hval{color:var(--red);}
+.history-pass-list{max-height:100px;overflow-y:auto;display:flex;flex-direction:column;gap:3px;}
+.history-pass-list::-webkit-scrollbar{width:3px;}
+.history-pass-list::-webkit-scrollbar-thumb{background:var(--border);}
+.hpass-item{display:flex;align-items:center;gap:6px;font-size:11px;padding:3px 5px;border-radius:5px;background:rgba(255,255,255,.02);}
+.hpass-seat{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);min-width:26px;}
+.hpass-info{flex:1;display:flex;gap:4px;align-items:center;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(7px);z-index:9000;display:flex;align-items:center;justify-content:center;padding:14px;animation:mfade .18s ease;}
+@keyframes mfade{from{opacity:0}to{opacity:1}}
+.modal-box{background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:24px 20px;max-width:380px;width:100%;text-align:center;animation:popIn .27s cubic-bezier(.34,1.56,.64,1);}
+@keyframes popIn{from{opacity:0;transform:scale(.84)}to{opacity:1;transform:scale(1)}}
+.modal-icon{font-size:36px;margin-bottom:8px;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:2px;margin-bottom:6px;}
+.modal-desc{font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6;}
+.modal-summary{display:flex;justify-content:center;gap:14px;margin-bottom:16px;}
+.msumm{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.msumm .mv{font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1;}
+.msumm .ml{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.msumm.mb .mv{color:var(--green);}
+.msumm.ma .mv{color:var(--red);}
+.msumm.mw .mv{color:var(--yellow);}
+.modal-btns{display:flex;gap:10px;}
+.mbtn-cancel{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;}
+.mbtn-cancel:hover{color:var(--text);border-color:var(--muted);}
+.mbtn-confirm{flex:1;background:linear-gradient(135deg,#ff6b35,#ff4d6d);border:none;border-radius:10px;padding:10px;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;}
+.mbtn-confirm:hover{box-shadow:0 5px 16px rgba(255,77,109,.4);transform:translateY(-1px);}
+.mbtn-confirm-green{flex:1;background:linear-gradient(135deg,var(--accent),var(--accent-dark));border:none;border-radius:10px;padding:10px;color:#000;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;}
+.mbtn-confirm-green:hover{box-shadow:0 5px 16px rgba(0,200,83,.4);transform:translateY(-1px);}
+.modal-form{display:flex;flex-direction:column;gap:10px;text-align:left;margin-bottom:16px;}
+
+/* MISC */
+.fade-in{animation:fadeUp .38s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.ripple{position:absolute;border-radius:50%;background:rgba(0,200,83,.2);transform:scale(0);animation:rippleA .5s linear;pointer-events:none;}
+@keyframes rippleA{to{transform:scale(4);opacity:0}}
+
+@media(max-width:480px){
+  .passenger-item{flex-wrap:wrap;}
+  .passenger-actions{width:100%;display:flex;flex-direction:row;}
+  .btn-board,.btn-absent,.btn-undo{flex:1;text-align:center;padding:8px 4px;font-size:11px;}
+  .toast-container{bottom:10px;right:10px;left:10px;}
+  .toast{min-width:unset;width:100%;}
+  .modal-box{padding:20px 14px;}
+}
 </style>
 </head>
 <body>
+
 <header>
   <div class="logo">
-    <div class="logo-icon">🚌</div>
-    <div class="logo-text">Trans<span>Control</span></div>
+    <div class="logo-slot" id="logoSlot" title="Toque para adicionar logo">
+      <input type="file" accept="image/*" onchange="handleLogoUpload(event)">
+      <img id="logoImg" src="" alt="Logo">
+      <span class="logo-ph" id="logoPH">🖼</span>
+    </div>
+    <div class="logo-text"><span>Liderança</span></div>
   </div>
   <div class="header-right">
     <div class="live-badge"><div class="live-dot"></div>Ao Vivo</div>
     <div class="clock" id="clock">--:--:--</div>
-    <button class="btn-finalize" onclick="finalizeBoarding()">🏁 Finalizar Embarque</button>
   </div>
 </header>
 
-<div class="fleet-bar" id="fleetBar"></div>
-
 <main>
-  <div class="no-fleet-state fade-in" id="noFleetState">
-    <div class="nf-icon">🚌</div>
-    <div class="nf-title">Nenhuma frota ativa</div>
-    <div class="nf-sub">Clique em <strong>+ Nova Frota</strong> para começar um embarque</div>
+  <!-- TABS -->
+  <div class="car-tabs-bar fade-in" id="carTabsBar">
+    <button class="btn-add-car" onclick="openNewCarModal()">＋ Novo Carro</button>
   </div>
-  <div id="fleetContent" style="display:none">
-    <div class="fleet-info-bar fade-in" id="fleetInfoBar"></div>
-    <div class="stats-grid fade-in">
-      <div class="stat-card blue"><div class="stat-label">Total</div><div class="stat-value" id="statTotal">0</div><div class="stat-sub">Capacidade: 44</div><div class="progress-wrap"><div class="progress-bar" id="barTotal" style="width:0%"></div></div></div>
-      <div class="stat-card green"><div class="stat-label">Embarcados</div><div class="stat-value" id="statBoarded">0</div><div class="stat-sub" id="boardedPct">0%</div><div class="progress-wrap"><div class="progress-bar" id="barBoarded" style="width:0%"></div></div></div>
-      <div class="stat-card orange"><div class="stat-label">Aguardando</div><div class="stat-value" id="statWaiting">0</div><div class="stat-sub">Pendentes</div></div>
-      <div class="stat-card red"><div class="stat-label">Ausentes</div><div class="stat-value" id="statAbsent">0</div><div class="stat-sub">Não embarcaram</div></div>
+
+  <!-- STATS -->
+  <div class="stats-grid fade-in" style="animation-delay:.06s">
+    <div class="stat-card sg">
+      <div class="stat-label">Total</div>
+      <div class="stat-value" id="statTotal">0</div>
+      <div class="stat-sub">passageiros</div>
+      <div class="pw"><div class="pb" id="barTotal" style="width:0%"></div></div>
     </div>
-    <div class="columns">
-      <div class="panel fade-in">
-        <div class="panel-header">
-          <div class="panel-title"><span>💺</span> Passageiros</div>
-          <div class="controls">
-            <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" class="search-input" id="searchInput" placeholder="Buscar assento..."></div>
+    <div class="stat-card sg2">
+      <div class="stat-label">Embarcados</div>
+      <div class="stat-value" id="statBoarded">0</div>
+      <div class="stat-sub" id="boardedPct">0%</div>
+      <div class="pw"><div class="pb" id="barBoarded" style="width:0%"></div></div>
+    </div>
+    <div class="stat-card so">
+      <div class="stat-label">Aguardando</div>
+      <div class="stat-value" id="statWaiting">0</div>
+      <div class="stat-sub">pendentes</div>
+    </div>
+    <div class="stat-card sr">
+      <div class="stat-label">Ausentes</div>
+      <div class="stat-value" id="statAbsent">0</div>
+      <div class="stat-sub">não vieram</div>
+    </div>
+  </div>
+
+  <div class="columns">
+    <!-- LIST -->
+    <div class="panel fade-in" style="animation-delay:.1s">
+      <div class="panel-header">
+        <div class="panel-title">🎟 <span id="listTitle">Passageiros</span></div>
+        <div class="controls">
+          <div class="search-wrap">
+            <span class="si">🔍</span>
+            <input type="text" class="search-input" id="searchInput" placeholder="Buscar poltrona...">
+          </div>
+          <div class="filters">
             <button class="filter-btn active" data-filter="all">Todos</button>
             <button class="filter-btn" data-filter="waiting">⏳</button>
             <button class="filter-btn" data-filter="boarded">✅</button>
             <button class="filter-btn" data-filter="absent">❌</button>
           </div>
         </div>
-        <div class="passenger-list" id="passengerList"></div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:18px;">
-        <div class="panel fade-in">
-          <div class="panel-header"><div class="panel-title"><span>➕</span> Adicionar Passageiro</div></div>
-          <div class="add-panel">
-            <div class="add-form">
-              <div class="form-row">
-                <div class="form-group"><label class="form-label">Assento</label><input type="text" class="form-input" id="inputSeat" placeholder="Ex: 12A" maxlength="4"></div>
-                <div class="form-group"><label class="form-label">Categoria</label><select class="form-select" id="inputCat"><option value="">Comum</option><option value="leito">🛏 Leito</option></select></div>
+      <div class="passenger-list" id="passengerList"></div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div style="display:flex;flex-direction:column;gap:13px;">
+
+      <!-- FLEET + FINALIZE -->
+      <div class="panel fade-in" style="animation-delay:.13s">
+        <div class="panel-header">
+          <div class="panel-title">🚌 Carro Ativo</div>
+          <button class="btn-finalize" onclick="finalizeBoarding()">🏁 Finalizar</button>
+        </div>
+        <div class="fleet-info-bar">
+          <div class="fi-item"><div class="fi-label">Frota</div><div class="fi-value" id="infoFrota">—</div></div>
+          <div class="fi-item"><div class="fi-label">Horário</div><div class="fi-value" id="infoHorario">—</div></div>
+        </div>
+      </div>
+
+      <!-- ADD PASSENGER -->
+      <div class="panel fade-in" style="animation-delay:.16s">
+        <div class="panel-header">
+          <div class="panel-title">➕ Adicionar Passageiro</div>
+        </div>
+        <div class="add-panel">
+          <div class="add-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Nº Poltrona</label>
+                <input type="number" min="1" max="99" class="form-input" id="inputSeat" placeholder="Ex: 12">
               </div>
-              <button class="btn-add" onclick="addPassenger()">+ ADICIONAR</button>
+              <div class="form-group">
+                <label class="form-label">Categoria</label>
+                <select class="form-select" id="inputCat">
+                  <option value="">🪑 Comum</option>
+                  <option value="leito">🛏 Leito</option>
+                </select>
+              </div>
             </div>
+            <div class="form-group">
+              <label class="form-label">Agência</label>
+              <div class="agency-row">
+                <button type="button" class="agency-btn" id="btnPH"    onclick="selectAgency('PH')">🏢 PH</button>
+                <button type="button" class="agency-btn" id="btnKEILA" onclick="selectAgency('KEILA')">🏢 KEILA</button>
+              </div>
+            </div>
+            <button class="btn-add" onclick="addPassenger()">＋ ADICIONAR</button>
           </div>
         </div>
-        <div class="panel fade-in">
-          <div class="panel-header"><div class="panel-title"><span>📋</span> Registro</div></div>
-          <div class="log-wrap" id="logWrap"><div class="empty-state"><div class="empty-icon">📝</div><p>Nenhuma atividade</p></div></div>
-        </div>
       </div>
+
     </div>
   </div>
 </main>
 
+<!-- HISTORY -->
 <section id="historySection" style="display:none">
   <div class="history-inner">
     <div class="history-header">
@@ -271,192 +382,335 @@ main{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:24px 20p
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-let fleets={},activeFleetId=null,currentFilter='all',searchTerm='';
-function updateClock(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('pt-BR')}
-setInterval(updateClock,1000);updateClock();
-function renderTabs(){
-  const bar=document.getElementById('fleetBar');bar.innerHTML='';
-  Object.values(fleets).forEach(f=>{
-    const b=f.passengers.filter(p=>p.status==='boarded').length;
-    const tab=document.createElement('div');
-    tab.className='fleet-tab'+(f.id===activeFleetId?' active':'');
-    tab.innerHTML=`<div class="tab-main"><div class="tab-frota">🚌 ${f.frota}</div><div class="tab-hora">${f.horario}</div></div><span class="tab-badge">${b}/${f.passengers.length}</span><span class="tab-close" onclick="removeFleet('${f.id}',event)">✕</span>`;
-    tab.addEventListener('click',()=>switchFleet(f.id));
-    bar.appendChild(tab);
-  });
-  const btn=document.createElement('button');btn.className='btn-add-fleet';btn.innerHTML='➕ Nova Frota';btn.onclick=openNewFleetModal;bar.appendChild(btn);
+const HISTORY_KEY='lideranca_history_v4';
+const CARS_KEY='lideranca_cars_v4';
+const LOGO_KEY='lideranca_logo';
+
+let cars=[],activeCar=null,nextPassId=1,nextCarId=1;
+let currentFilter='all',searchTerm='',selectedAgency='';
+
+// LOGO
+function handleLogoUpload(e){
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{localStorage.setItem(LOGO_KEY,ev.target.result);applyLogo(ev.target.result);};
+  reader.readAsDataURL(file);
 }
-function switchFleet(id){
-  if(activeFleetId===id)return;
-  activeFleetId=id;currentFilter='all';searchTerm='';
+function applyLogo(data){
+  const img=document.getElementById('logoImg'),ph=document.getElementById('logoPH');
+  img.src=data;img.style.display='block';ph.style.display='none';
+  document.getElementById('logoSlot').style.border='none';
+}
+(()=>{const s=localStorage.getItem(LOGO_KEY);if(s)applyLogo(s);})();
+
+// AGENCY
+function selectAgency(ag){
+  selectedAgency=ag;
+  document.getElementById('btnPH').className='agency-btn'+(ag==='PH'?' sel-ph':'');
+  document.getElementById('btnKEILA').className='agency-btn'+(ag==='KEILA'?' sel-keila':'');
+}
+
+// PERSIST
+function saveCars(){try{localStorage.setItem(CARS_KEY,JSON.stringify({cars,activeCar,nextPassId,nextCarId}));}catch{}}
+function loadCarsData(){
+  try{
+    const d=JSON.parse(localStorage.getItem(CARS_KEY));
+    if(d&&d.cars&&d.cars.length){cars=d.cars;activeCar=d.activeCar;nextPassId=d.nextPassId||1;nextCarId=d.nextCarId||1;return true;}
+  }catch{}
+  return false;
+}
+
+// CLOCK
+function updateClock(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('pt-BR');}
+setInterval(updateClock,1000);updateClock();
+
+// HELPERS
+function getActiveCar(){return cars.find(c=>c.id===activeCar)||null;}
+function parseSeat(s){const n=parseInt(s);return isNaN(n)?9999:n;}
+
+// TABS
+function renderTabs(){
+  const bar=document.getElementById('carTabsBar');
+  const addBtn=bar.querySelector('.btn-add-car');
+  bar.querySelectorAll('.car-tab').forEach(t=>t.remove());
+  cars.forEach(car=>{
+    const boarded=car.passengers.filter(p=>p.status==='boarded').length;
+    const tab=document.createElement('div');
+    tab.className='car-tab'+(car.id===activeCar?' active':'');
+    tab.innerHTML=`<span class="tab-frota">${car.frota}</span><span class="tab-hour">${car.horario}</span>${boarded>0?`<span class="tab-badge">${boarded}</span>`:''}<span class="tab-close" onclick="removeCar(${car.id},event)">✕</span>`;
+    tab.addEventListener('click',()=>switchCar(car.id));
+    bar.insertBefore(tab,addBtn);
+  });
+}
+
+function switchCar(id){
+  activeCar=id;currentFilter='all';searchTerm='';
   document.getElementById('searchInput').value='';
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
-  renderTabs();showFleetContent();
+  saveCars();refresh();
 }
-function removeFleet(id,e){
-  e.stopPropagation();const f=fleets[id];
-  if(!confirm('Remover frota '+f.frota+'?'))return;
-  delete fleets[id];
-  if(activeFleetId===id){const r=Object.keys(fleets);activeFleetId=r.length?r[r.length-1]:null;}
-  renderTabs();
-  if(activeFleetId)showFleetContent();
-  else{document.getElementById('fleetContent').style.display='none';document.getElementById('noFleetState').style.display='flex';}
-  showToast('yellow','🗑','Frota '+f.frota+' removida','');
+
+function removeCar(id,e){
+  e.stopPropagation();
+  const car=cars.find(c=>c.id===id);
+  if(!confirm(`Remover frota ${car?.frota||id}?`))return;
+  cars=cars.filter(c=>c.id!==id);
+  if(activeCar===id)activeCar=cars.length?cars[0].id:null;
+  saveCars();refresh();
 }
-function openNewFleetModal(){
-  const o=document.createElement('div');o.className='modal-overlay';
-  o.innerHTML=`<div class="modal-box"><div class="modal-icon">🚌</div><div class="modal-title">Nova Frota</div><div class="modal-desc">Informe os dados do veículo para iniciar o embarque.</div><div style="display:flex;flex-direction:column;gap:10px;margin-bottom:22px;"><div class="form-group"><label class="form-label">Número da Frota</label><input type="text" class="form-input" id="mFrota" placeholder="Ex: 4521" style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:20px;letter-spacing:3px;" autocomplete="off"></div><div class="form-group"><label class="form-label">Horário de Partida</label><input type="time" class="form-input" id="mHorario" style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:18px;"></div></div><div class="modal-btns"><button class="modal-btn-cancel" onclick="this.closest('.modal-overlay').remove()">Cancelar</button><button class="modal-btn-confirm modal-btn-blue" onclick="createFleet(this)">✔ Iniciar Embarque</button></div></div>`;
-  document.body.appendChild(o);setTimeout(()=>o.querySelector('#mFrota').focus(),100);
+
+// NEW CAR
+function openNewCarModal(){
+  const ov=document.createElement('div');ov.className='modal-overlay';
+  ov.innerHTML=`<div class="modal-box">
+    <div class="modal-icon">🚌</div>
+    <div class="modal-title">Novo Carro</div>
+    <div class="modal-desc">Informe os dados para iniciar o embarque.</div>
+    <div class="modal-form">
+      <div class="form-group"><label class="form-label">Número da Frota</label><input type="text" class="form-input" id="newFrota" placeholder="Ex: 4507" autocomplete="off"></div>
+      <div class="form-group"><label class="form-label">Horário de Partida</label><input type="time" class="form-input" id="newHorario"></div>
+    </div>
+    <div class="modal-btns">
+      <button class="mbtn-cancel" onclick="this.closest('.modal-overlay').remove()">Cancelar</button>
+      <button class="mbtn-confirm-green" onclick="confirmNewCar(this)">✔ Adicionar</button>
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+  setTimeout(()=>ov.querySelector('#newFrota').focus(),80);
+  ov.querySelector('#newHorario').value=new Date().toTimeString().slice(0,5);
+  ov.addEventListener('click',e=>{if(e.target===ov)ov.remove();});
 }
-function createFleet(btn){
-  const frota=document.getElementById('mFrota').value.trim().toUpperCase();
-  const horario=document.getElementById('mHorario').value;
-  if(!frota){showToast('red','⚠️','Frota obrigatória','');return;}
-  if(!horario){showToast('red','⚠️','Horário obrigatório','');return;}
-  if(Object.values(fleets).find(f=>f.frota===frota)){showToast('red','⚠️','Frota duplicada','Frota '+frota+' já está ativa');return;}
+
+function confirmNewCar(btn){
+  const frota=document.getElementById('newFrota').value.trim();
+  const horario=document.getElementById('newHorario').value;
+  if(!frota){showToast('red','⚠️','Frota obrigatória','Preencha o número da frota');return;}
+  const car={id:nextCarId++,frota,horario:horario||'--:--',passengers:[]};
+  cars.push(car);activeCar=car.id;
   btn.closest('.modal-overlay').remove();
-  const id='f'+Date.now();
-  fleets[id]={id,frota,horario,passengers:[],logs:[],nextId:1};
-  activeFleetId=id;currentFilter='all';searchTerm='';
-  addLog('fleet','Frota <strong>'+frota+'</strong> iniciada — partida '+horario);
-  renderTabs();showFleetContent();
-  showToast('blue','🚌','Frota '+frota,'Partida '+horario);
+  saveCars();refresh();
+  showToast('blue','🚌',`Frota ${frota}`,`Carro adicionado · ${car.horario}`);
 }
-function showFleetContent(){
-  const f=fleets[activeFleetId];if(!f)return;
-  document.getElementById('noFleetState').style.display='none';
-  document.getElementById('fleetContent').style.display='block';
-  document.getElementById('fleetInfoBar').innerHTML=`<div class="fleet-info-item"><div class="fi-label">Frota</div><div class="fi-val">${f.frota}</div></div><div class="fleet-divider"></div><div class="fleet-info-item"><div class="fi-label">Horário</div><div class="fi-val">${f.horario}</div></div><div class="fleet-divider"></div><div class="fleet-info-item"><div class="fi-label">Passageiros</div><div class="fi-val" id="fiTotal">${f.passengers.length}</div></div><div class="fleet-divider"></div><div class="fleet-info-item"><div class="fi-label">Embarcados</div><div class="fi-val" style="color:var(--green)" id="fiBoarded">${f.passengers.filter(p=>p.status==='boarded').length}</div></div>`;
-  updateStats();renderList();renderLog();
-}
-function getFleet(){return fleets[activeFleetId]}
-function addLog(type,msg){
-  if(!activeFleetId)return;const f=fleets[activeFleetId];if(!f)return;
-  const time=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  f.logs.unshift({type,msg,time});if(f.logs.length>60)f.logs.pop();renderLog();
-}
+
+// STATS
 function updateStats(){
-  const f=getFleet();if(!f)return;
-  const total=f.passengers.length,boarded=f.passengers.filter(p=>p.status==='boarded').length;
-  const waiting=f.passengers.filter(p=>p.status==='waiting').length,absent=f.passengers.filter(p=>p.status==='absent').length;
+  const car=getActiveCar();const ps=car?car.passengers:[];
+  const total=ps.length,boarded=ps.filter(p=>p.status==='boarded').length;
+  const waiting=ps.filter(p=>p.status==='waiting').length,absent=ps.filter(p=>p.status==='absent').length;
   const pct=total>0?Math.round(boarded/total*100):0;
   document.getElementById('statTotal').textContent=total;
   document.getElementById('statBoarded').textContent=boarded;
   document.getElementById('statWaiting').textContent=waiting;
   document.getElementById('statAbsent').textContent=absent;
-  document.getElementById('boardedPct').textContent=pct+'% confirmados';
+  document.getElementById('boardedPct').textContent=pct+'%';
   document.getElementById('barTotal').style.width=Math.min(total/44*100,100)+'%';
   document.getElementById('barBoarded').style.width=pct+'%';
-  const ft=document.getElementById('fiTotal');if(ft)ft.textContent=total;
-  const fb=document.getElementById('fiBoarded');if(fb)fb.textContent=boarded;
-  renderTabs();
+  document.getElementById('infoFrota').textContent=car?car.frota:'—';
+  document.getElementById('infoHorario').textContent=car?car.horario:'—';
+  document.getElementById('listTitle').textContent=car?`Frota ${car.frota}`:'Passageiros';
 }
+
+// RENDER LIST
 function renderList(){
-  const f=getFleet();if(!f)return;
   const list=document.getElementById('passengerList');
-  let items=f.passengers.filter(p=>{
+  const car=getActiveCar();
+  if(!car){
+    list.innerHTML=`<div class="empty-state"><div class="ei">🚌</div><p>Nenhum carro selecionado.<br>Clique em <strong>＋ Novo Carro</strong> para começar.</p></div>`;
+    return;
+  }
+  let sorted=[...car.passengers].sort((a,b)=>parseSeat(a.seat)-parseSeat(b.seat));
+  let filtered=sorted.filter(p=>{
     if(currentFilter!=='all'&&p.status!==currentFilter)return false;
-    if(searchTerm)return p.seat.toLowerCase().includes(searchTerm.toLowerCase());
+    if(searchTerm)return String(p.seat).includes(searchTerm);
     return true;
   });
-  if(!items.length){list.innerHTML='<div class="empty-state"><div class="empty-icon">💺</div><p>Nenhum passageiro</p></div>';return;}
+  if(!filtered.length){
+    list.innerHTML=`<div class="empty-state"><div class="ei">🔍</div><p>Nenhum resultado.</p></div>`;
+    return;
+  }
   list.innerHTML='';
-  items.forEach((p,idx)=>{
+  filtered.forEach((p,idx)=>{
     const el=document.createElement('div');
-    el.className='passenger-item '+p.status;
-    el.style.animationDelay=idx*0.04+'s';
+    el.className=`passenger-item ${p.status}`;
+    el.style.animationDelay=`${idx*0.03}s`;
     const catTag=p.cat==='leito'?'<span class="tag leito">🛏 Leito</span>':'<span class="tag comum">🪑 Comum</span>';
-    const acts=p.status==='waiting'
-      ?`<button class="btn-board" onclick="boardP('${p.id}',event)">✔ Embarcar</button><button class="btn-absent" onclick="absentP('${p.id}',event)">✗</button>`
-      :`<button class="btn-undo" onclick="undoP('${p.id}',event)">↩</button>`;
-    el.innerHTML=`<div class="seat-badge">${p.seat}</div><div class="passenger-info"><div class="passenger-name">Assento ${p.seat}</div><div class="passenger-detail">${catTag}</div>${p.status==='boarded'&&p.time?'<div class="board-time">✅ '+p.time+'</div>':''}${p.status==='absent'?'<div class="board-time" style="color:var(--red)">❌ Ausente</div>':''}</div><div class="passenger-actions">${acts}</div>`;
+    const agTag=p.agency==='PH'?'<span class="tag ph">PH</span>':p.agency==='KEILA'?'<span class="tag keila">KEILA</span>':'';
+    const statusInfo=p.status==='boarded'&&p.time?`<div class="board-time">✅ ${p.time}</div>`:p.status==='absent'?`<div class="absent-lbl">❌ Ausente</div>`:'';
+    const actions=p.status==='waiting'
+      ?`<button class="btn-board"  onclick="boardPassenger(${p.id},event)">✔ Embarcar</button><button class="btn-absent" onclick="markAbsent(${p.id},event)">✗ Ausente</button>`
+      :`<button class="btn-undo"   onclick="undoStatus(${p.id},event)">↩ Desfazer</button>`;
+    el.innerHTML=`
+      <div class="seat-badge">${p.seat}</div>
+      <div class="passenger-info">
+        <div class="passenger-main"><span class="passenger-seat-lbl">Poltrona ${p.seat}</span>${catTag}${agTag}</div>
+        ${statusInfo}
+      </div>
+      <div class="passenger-actions">${actions}</div>`;
     list.appendChild(el);
   });
 }
-function boardP(id,e){
-  const f=getFleet();if(!f)return;const p=f.passengers.find(x=>x.id===id);if(!p)return;
+
+// ACTIONS
+function boardPassenger(id,e){
+  const car=getActiveCar();if(!car)return;
+  const p=car.passengers.find(x=>x.id===id);if(!p)return;
   p.status='boarded';p.time=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  addLog('board','Assento <strong>'+p.seat+'</strong> embarcou');
-  showToast('green','✅','Assento '+p.seat,'Embarque confirmado');rippleEffect(e);refresh();
+  showToast('green','✅',`Poltrona ${p.seat}`,`Embarcado · Frota ${car.frota}`);
+  rippleEffect(e);saveCars();refresh();
 }
-function absentP(id,e){
-  const f=getFleet();if(!f)return;const p=f.passengers.find(x=>x.id===id);if(!p)return;
-  p.status='absent';addLog('absent','Assento <strong>'+p.seat+'</strong> ausente');
-  showToast('red','❌','Assento '+p.seat,'Marcado ausente');rippleEffect(e);refresh();
+function markAbsent(id,e){
+  const car=getActiveCar();if(!car)return;
+  const p=car.passengers.find(x=>x.id===id);if(!p)return;
+  p.status='absent';
+  showToast('red','❌',`Poltrona ${p.seat}`,`Ausente · Frota ${car.frota}`);
+  rippleEffect(e);saveCars();refresh();
 }
-function undoP(id,e){
-  const f=getFleet();if(!f)return;const p=f.passengers.find(x=>x.id===id);if(!p)return;
-  p.status='waiting';p.time=null;addLog('undo','Assento <strong>'+p.seat+'</strong> revertido');
-  showToast('blue','↩','Assento '+p.seat,'Status revertido');rippleEffect(e);refresh();
+function undoStatus(id,e){
+  const car=getActiveCar();if(!car)return;
+  const p=car.passengers.find(x=>x.id===id);if(!p)return;
+  p.status='waiting';p.time=null;
+  showToast('blue','↩',`Poltrona ${p.seat}`,'Status revertido');
+  rippleEffect(e);saveCars();refresh();
 }
 function addPassenger(){
-  const f=getFleet();if(!f){showToast('red','⚠️','Sem frota ativa','Crie uma frota primeiro');return;}
-  const seat=document.getElementById('inputSeat').value.trim().toUpperCase();
+  const car=getActiveCar();
+  if(!car){showToast('red','⚠️','Nenhum carro','Adicione um carro primeiro');return;}
+  const seat=document.getElementById('inputSeat').value.trim();
   const cat=document.getElementById('inputCat').value;
-  if(!seat){showToast('red','⚠️','Assento obrigatório','');return;}
-  if(f.passengers.find(p=>p.seat===seat)){showToast('red','⚠️','Assento ocupado',seat+' já cadastrado');return;}
-  const id='p'+(f.nextId++);
-  f.passengers.push({id,seat,cat,status:'waiting',time:null});
-  addLog('add','Assento <strong>'+seat+'</strong> ('+( cat==='leito'?'Leito':'Comum')+') adicionado');
-  showToast('blue','💺','Assento '+seat,cat==='leito'?'🛏 Leito':'🪑 Comum');
-  document.getElementById('inputSeat').value='';document.getElementById('inputCat').value='';refresh();
+  if(!seat){showToast('red','⚠️','Poltrona obrigatória','Informe o número da poltrona');return;}
+  if(!selectedAgency){showToast('red','⚠️','Agência obrigatória','Selecione PH ou KEILA');return;}
+  if(car.passengers.find(p=>String(p.seat)===String(parseInt(seat)||seat))){
+    showToast('red','⚠️','Poltrona ocupada',`Poltrona ${seat} já está em uso`);return;
+  }
+  car.passengers.push({id:nextPassId++,seat:parseInt(seat)||seat,cat,agency:selectedAgency,status:'waiting',time:null});
+  showToast('blue','➕',`Poltrona ${seat}`,`${selectedAgency} · ${cat==='leito'?'Leito':'Comum'}`);
+  document.getElementById('inputSeat').value='';
+  saveCars();refresh();
 }
-function renderLog(){
-  const f=getFleet();const wrap=document.getElementById('logWrap');if(!wrap)return;
-  if(!f||!f.logs.length){wrap.innerHTML='<div class="empty-state"><div class="empty-icon">📝</div><p>Nenhuma atividade</p></div>';return;}
-  wrap.innerHTML=f.logs.slice(0,15).map(l=>`<div class="log-item"><span class="log-time">${l.time}</span><div class="log-dot ${l.type}"></div><span class="log-msg">${l.msg}</span></div>`).join('');
-}
-function showToast(color,icon,title,sub){
-  const c=document.getElementById('toastContainer');const t=document.createElement('div');
-  t.className='toast '+color;t.innerHTML=`<span class="toast-icon">${icon}</span><div class="toast-text"><strong>${title}</strong><small>${sub}</small></div>`;
-  c.appendChild(t);setTimeout(()=>{t.classList.add('out');setTimeout(()=>t.remove(),250);},3000);
-}
-function rippleEffect(e){
-  if(!e||!e.currentTarget)return;const btn=e.currentTarget;
-  const r=document.createElement('span');r.className='ripple';
-  const rect=btn.getBoundingClientRect(),size=Math.max(rect.width,rect.height);
-  r.style.width=r.style.height=size+'px';r.style.left=(e.clientX-rect.left-size/2)+'px';r.style.top=(e.clientY-rect.top-size/2)+'px';
-  btn.style.position='relative';btn.appendChild(r);setTimeout(()=>r.remove(),600);
-}
-function finalizeBoarding(){
-  const f=getFleet();if(!f){showToast('red','⚠️','Nenhuma frota ativa','Selecione uma frota');return;}
-  const boarded=f.passengers.filter(p=>p.status==='boarded').length;
-  const absent=f.passengers.filter(p=>p.status==='absent').length;
-  const waiting=f.passengers.filter(p=>p.status==='waiting').length;
-  const o=document.createElement('div');o.className='modal-overlay';
-  o.innerHTML=`<div class="modal-box"><div class="modal-icon">🏁</div><div class="modal-title">Finalizar Embarque?</div><div class="modal-fleet-name">Frota ${f.frota} · ${f.horario}</div><div class="modal-desc">O embarque será salvo no histórico e a frota removida das abas.</div><div class="modal-summary"><div class="msumm mb"><span class="mv">${boarded}</span><span class="ml">Embarcados</span></div><div class="msumm ma"><span class="mv">${absent}</span><span class="ml">Ausentes</span></div><div class="msumm mw"><span class="mv">${waiting}</span><span class="ml">Aguardando</span></div></div><div class="modal-btns"><button class="modal-btn-cancel" onclick="this.closest('.modal-overlay').remove()">Cancelar</button><button class="modal-btn-confirm" onclick="confirmFinalize('${f.id}',this)">✔ Confirmar</button></div></div>`;
-  document.body.appendChild(o);
-}
-function confirmFinalize(fid,btn){
-  btn.closest('.modal-overlay').remove();const f=fleets[fid];if(!f)return;
-  const now=new Date(),history=loadHistory();
-  history.push({id:Date.now(),frota:f.frota,horario:f.horario,date:now.toLocaleDateString('pt-BR'),time:now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}),boarded:f.passengers.filter(p=>p.status==='boarded').length,absent:f.passengers.filter(p=>p.status==='absent').length,passengers:f.passengers.map(p=>({seat:p.seat,cat:p.cat,status:p.status}))});
-  saveHistory(history);
-  showToast('green','🏁','Frota '+f.frota+' finalizada',now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
-  delete fleets[fid];const rem=Object.keys(fleets);activeFleetId=rem.length?rem[rem.length-1]:null;
-  renderTabs();
-  if(activeFleetId)showFleetContent();
-  else{document.getElementById('fleetContent').style.display='none';document.getElementById('noFleetState').style.display='flex';}
-  renderHistory();setTimeout(()=>document.getElementById('historySection').scrollIntoView({behavior:'smooth'}),400);
-}
-const HIST_KEY='tc_v3';
-function loadHistory(){try{return JSON.parse(localStorage.getItem(HIST_KEY)||'[]');}catch{return[];}}
-function saveHistory(h){localStorage.setItem(HIST_KEY,JSON.stringify(h));}
+
+// HISTORY
+function loadHistory(){try{return JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]');}catch{return[];}}
+function saveHistory(h){localStorage.setItem(HISTORY_KEY,JSON.stringify(h));}
 function renderHistory(){
-  const h=loadHistory();const sec=document.getElementById('historySection');const el=document.getElementById('historyList');
-  if(!h.length){sec.style.display='none';return;}
-  sec.style.display='block';
-  el.innerHTML='<div class="history-grid">'+h.slice().reverse().map((e,i)=>`<div class="history-card" style="animation-delay:${i*.06}s"><div class="history-card-top"><div><div class="history-fleet-name">🚌 Frota ${e.frota}</div><div class="history-fleet-hora">⏰ Partida: ${e.horario}</div></div><div><span class="hdate">${e.date}</span><span class="htime">${e.time}</span></div></div><div class="history-stats-row"><div class="hstat htotal"><span class="hval">${e.passengers.length}</span><span class="hlbl">Total</span></div><div class="hstat hboard"><span class="hval">${e.boarded}</span><span class="hlbl">Emb.</span></div><div class="hstat habsent"><span class="hval">${e.absent}</span><span class="hlbl">Aus.</span></div></div><div class="history-pass-list">${e.passengers.map(p=>`<div class="hpass-item"><span class="hpass-seat">${p.seat}</span><span class="hpass-cat">${p.cat==='leito'?'🛏 Leito':'🪑 Comum'}</span><span>${p.status==='boarded'?'✅':p.status==='absent'?'❌':'⏳'}</span></div>`).join('')}</div></div>`).join('')+'</div>';
+  const history=loadHistory();
+  const section=document.getElementById('historySection');
+  if(!history.length){section.style.display='none';return;}
+  section.style.display='block';
+  document.getElementById('historyList').innerHTML=`<div class="history-grid">${
+    history.slice().reverse().map((entry,i)=>`
+      <div class="history-card" style="animation-delay:${i*.05}s">
+        <div class="history-card-top">
+          <div><div class="hc-frota">Frota ${entry.frota}</div><div class="hc-id">⏰ ${entry.horario} · ${entry.passengers.length} passageiro${entry.passengers.length!==1?'s':''}</div></div>
+          <div class="hc-dt"><span class="hdate">${entry.date}</span><span class="htime">${entry.time}</span></div>
+        </div>
+        <div class="history-stats-row">
+          <div class="hstat ht"><span class="hval">${entry.passengers.length}</span><span class="hlbl">Total</span></div>
+          <div class="hstat hb"><span class="hval">${entry.boarded}</span><span class="hlbl">Embarcados</span></div>
+          <div class="hstat ha"><span class="hval">${entry.absent}</span><span class="hlbl">Ausentes</span></div>
+        </div>
+        <div class="history-pass-list">
+          ${entry.passengers.sort((a,b)=>parseSeat(a.seat)-parseSeat(b.seat)).map(p=>`
+            <div class="hpass-item">
+              <span class="hpass-seat">${p.seat}</span>
+              <span class="hpass-info">${p.agency?`<span class="tag ${p.agency.toLowerCase()}">${p.agency}</span>`:''}${p.cat==='leito'?'<span class="tag leito">🛏</span>':''}</span>
+              <span>${p.status==='boarded'?'✅':p.status==='absent'?'❌':'⏳'}</span>
+            </div>`).join('')}
+        </div>
+      </div>`).join('')
+  }</div>`;
 }
-function clearHistory(){if(!confirm('Apagar todo o histórico?'))return;localStorage.removeItem(HIST_KEY);renderHistory();showToast('red','🗑','Histórico apagado','');}
+
+// FINALIZE
+function finalizeBoarding(){
+  const car=getActiveCar();
+  if(!car){showToast('red','⚠️','Nenhum carro','Selecione um carro primeiro');return;}
+  const boarded=car.passengers.filter(p=>p.status==='boarded').length;
+  const absent=car.passengers.filter(p=>p.status==='absent').length;
+  const waiting=car.passengers.filter(p=>p.status==='waiting').length;
+  const ov=document.createElement('div');ov.className='modal-overlay';
+  ov.innerHTML=`<div class="modal-box">
+    <div class="modal-icon">🏁</div>
+    <div class="modal-title">Finalizar Embarque?</div>
+    <div class="modal-desc">Frota <strong>${car.frota}</strong> · ${car.horario}<br>O embarque será salvo no histórico e o carro removido.</div>
+    <div class="modal-summary">
+      <div class="msumm mb"><span class="mv">${boarded}</span><span class="ml">Embarcados</span></div>
+      <div class="msumm ma"><span class="mv">${absent}</span><span class="ml">Ausentes</span></div>
+      <div class="msumm mw"><span class="mv">${waiting}</span><span class="ml">Aguardando</span></div>
+    </div>
+    <div class="modal-btns">
+      <button class="mbtn-cancel" onclick="this.closest('.modal-overlay').remove()">Cancelar</button>
+      <button class="mbtn-confirm" onclick="confirmFinalize(${car.id},this)">✔ Confirmar</button>
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+  ov.addEventListener('click',e=>{if(e.target===ov)ov.remove();});
+}
+
+function confirmFinalize(carId,btn){
+  btn.closest('.modal-overlay').remove();
+  const car=cars.find(c=>c.id===carId);if(!car)return;
+  const now=new Date();
+  const history=loadHistory();
+  history.push({id:Date.now(),frota:car.frota,horario:car.horario,date:now.toLocaleDateString('pt-BR'),time:now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}),boarded:car.passengers.filter(p=>p.status==='boarded').length,absent:car.passengers.filter(p=>p.status==='absent').length,passengers:car.passengers.map(p=>({seat:p.seat,cat:p.cat,agency:p.agency,status:p.status}))});
+  saveHistory(history);
+  cars=cars.filter(c=>c.id!==carId);
+  activeCar=cars.length?cars[0].id:null;
+  currentFilter='all';searchTerm='';
+  document.getElementById('searchInput').value='';
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+  saveCars();refresh();renderHistory();
+  showToast('green','🏁',`Frota ${car.frota} finalizada!`,now.toLocaleDateString('pt-BR'));
+  setTimeout(()=>document.getElementById('historySection').scrollIntoView({behavior:'smooth'}),400);
+}
+
+function clearHistory(){
+  if(!confirm('Apagar todo o histórico de embarques?'))return;
+  localStorage.removeItem(HISTORY_KEY);renderHistory();
+  showToast('red','🗑','Histórico apagado','Todos os registros removidos');
+}
+
+// TOAST
+function showToast(color,icon,title,sub){
+  const c=document.getElementById('toastContainer');
+  const t=document.createElement('div');t.className=`toast ${color}`;
+  t.innerHTML=`<span class="toast-icon">${icon}</span><div class="toast-text"><strong>${title}</strong><small>${sub}</small></div>`;
+  c.appendChild(t);
+  setTimeout(()=>{t.classList.add('out');setTimeout(()=>t.remove(),220);},3000);
+}
+
+// RIPPLE
+function rippleEffect(e){
+  if(!e||!e.currentTarget)return;
+  const btn=e.currentTarget;const r=document.createElement('span');r.className='ripple';
+  const rect=btn.getBoundingClientRect();const size=Math.max(rect.width,rect.height);
+  r.style.width=r.style.height=size+'px';
+  r.style.left=(e.clientX-rect.left-size/2)+'px';
+  r.style.top=(e.clientY-rect.top-size/2)+'px';
+  btn.style.position='relative';btn.appendChild(r);
+  setTimeout(()=>r.remove(),500);
+}
+
+// FILTERS
 document.querySelectorAll('.filter-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');currentFilter=btn.dataset.filter;renderList();});
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');currentFilter=btn.dataset.filter;renderList();
+  });
 });
 document.getElementById('searchInput').addEventListener('input',e=>{searchTerm=e.target.value;renderList();});
-function refresh(){updateStats();renderList();}
-renderTabs();renderHistory();
-document.querySelectorAll('.fade-in').forEach((el,i)=>{el.style.animationDelay=i*0.07+'s';});
+document.getElementById('inputSeat').addEventListener('keydown',e=>{if(e.key==='Enter')addPassenger();});
+
+// REFRESH
+function refresh(){renderTabs();updateStats();renderList();}
+
+// INIT
+if(!loadCarsData()){
+  const d={id:nextCarId++,frota:'4501',horario:'07:30',passengers:[]};
+  cars.push(d);activeCar=d.id;saveCars();
+}
+refresh();renderHistory();
 </script>
 </body>
 </html>
